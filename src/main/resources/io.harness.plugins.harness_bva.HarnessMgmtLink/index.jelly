@@ -1,0 +1,47 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <l:layout permission="${app.ADMINISTER}" norefresh="true">
+        <st:include it="${app}" page="sidepanel.jelly"/>
+        <l:main-panel>
+            <h1>
+                <img src="${rootURL}/plugin/${it.urlName}/images/propelo_logo.png" alt=""/> ${it.displayName} Configuration
+            </h1>
+
+            <f:form method="post" action="saveSettings">
+                <f:section title="Propelo API">
+                    <f:entry title="Jenkins Instance Name" field="jenkinsInstanceName"
+                             help="/plugin/${it.urlName}/help/help-jenkinsInstanceName.html">
+                        <f:textbox value="${it.configuration.jenkinsInstanceName}" name="jenkinsInstanceName"
+                                   checkUrl="'${rootURL}/plugin/${it.urlName}/checkJenkinsInstanceName?value='+escape(this.value)"/>
+                    </f:entry>
+
+                    <f:entry title="Propelo Status" field="levelOpsStatus"
+                             help="/plugin/${it.urlName}/help/help-jenkinsStatus.html">
+                        <f:readOnlyTextbox value="${it.jenkinsStatus}" name="levelOpsStatus"
+                                           checkUrl="'${rootURL}/plugin/${it.urlName}/checkLevelOpsStatus?value='+escape(this.value)"/>
+                    </f:entry>
+                </f:section>
+
+                <f:section title="Monitoring settings">
+                    <f:entry title="Propelo Plugins Directory" field="levelOpsPluginPath"
+                             help="/plugin/${it.urlName}/help/help-levelOpsPluginPath.html">
+                        <f:textbox value="${it.configuration.levelOpsPluginPath}" name="levelOpsPluginPath"
+                                   checkUrl="'${rootURL}/plugin/${it.urlName}/checkLevelOpsPluginPath?value='+escape(this.value)" checkMethod="post"/>
+                    </f:entry>
+                    <f:optionalBlock title="Trust All Certificates"
+                                     help="/plugin/${it.urlName}/help/help-trustAllCertificates.html"
+                                     checked="${it.configuration.trustAllCertificates}"
+                                     name="trustAllCertificates" />
+                </f:section>
+
+                <f:section>
+                    <f:entry>
+                        <f:submit value="Save"/>
+                    </f:entry>
+                </f:section>
+            </f:form>
+
+        </l:main-panel>
+    </l:layout>
+</j:jelly>

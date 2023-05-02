@@ -1,0 +1,37 @@
+# mvn hpi:run
+work
+
+# IntelliJ IDEA project files
+*.iml
+*.iws
+*.ipr
+.idea
+
+# Eclipse project files
+.settings
+.classpath
+.project
+
+.DS_Store
+
+**/*.iml
+secrets/
+**/build
+**/gradle
+*.class
+**/gradlew*
+**/\.gradle/
+.DS_Store
+.idea/
+**/.idea
+gradle.properties
+target/
+velocity.log
+velocity.log.*
+.vscode
+.project
+.settings
+.classpath
+bin
+.mvn
+.github

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.jenkins-ci.plugins</groupId>
+        <artifactId>plugin</artifactId>
+        <version>4.47</version>
+    </parent>
+
+    <groupId>io.jenkins.plugins</groupId>
+    <artifactId>harness-bva</artifactId>
+    <inceptionYear>2019</inceptionYear>
+    <version>${revision}${changelist}</version>
+    <packaging>hpi</packaging>
+
+    <name>Harness BVA Plugin</name>
+    <description>Upload scan artifacts to LevelOps API</description>
+    <url>https://app.propelo.ai</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+
+    <scm child.scm.connection.inherit.append.path="false" child.scm.developerConnection.inherit.append.path="false" child.scm.url.inherit.append.path="false">
+        <connection>scm:git:https://github.com/${gitHubRepo}</connection>
+        <developerConnection>scm:git:https://github.com/${gitHubRepo}</developerConnection>
+        <tag>${scmTag}</tag>
+        <url>https://github.com/${gitHubRepo}</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <organization>Propelo</organization>
+            <id>viraj-levelops</id>
+            <name>Viraj Ajgaonkar</name>
+            <email>viraj@propelo.ai</email>
+        </developer>        
+    </developers>
+
+    <profiles>
+        <!-- Give access to Jenkins plugins -->
+        <profile>
+            <id>jenkins</id>
+            <activation>
+                <activeByDefault>
+                    true
+                </activeByDefault> <!-- change this to false, if you don't like to have it on per default -->
+            </activation>
+            <repositories>
+                <repository>
+                    <id>repo.jenkins-ci.org</id>
+                    <url>https://repo.jenkins-ci.org/public/</url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>repo.jenkins-ci.org</id>
+                    <url>https://repo.jenkins-ci.org/public/</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+
+    <properties>
+        <revision>1.0.0</revision>
+        <!-- <changelist>-SNAPSHOT</changelist> -->
+        <changelist></changelist>
+        <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
+
+        <product.build.sourceEncoding>UTF-8</product.build.sourceEncoding>
+        <commons.validator.version>1.6</commons.validator.version>
+        <commons.beanutils.version>1.9.4</commons.beanutils.version>
+        <commons.logging.version>1.2</commons.logging.version>
+        <animal.sniffer.annotations>1.9</animal.sniffer.annotations>
+        <spotbugs.version>4.7.3</spotbugs.version>
+        <findbugs.skip>true</findbugs.skip>
+        <spotbugs.skip>true</spotbugs.skip>
+        <java.level>8</java.level>
+        <jenkins.version>2.346.3</jenkins.version>
+        <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <forkCount>1</forkCount>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jenkins-ci.tools</groupId>
+                <artifactId>maven-hpi-plugin</artifactId>
+                <configuration>
+                    <pluginFirstClassLoader>true</pluginFirstClassLoader>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-testCompile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <configuration>
+                            <source>1.8</source>
+                            <target>1.8</target>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <configuration>
+                    <!--  due to legacy code I need to set the option to not fail the build -->
+                    <failOnError>false</failOnError>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>com.github.spotbugs</groupId>-->
+<!--            <artifactId>spotbugs-annotations</artifactId>-->
+<!--            <version>4.7.2</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.kohsuke</groupId>-->
+<!--            <artifactId>access-modifier-annotation</artifactId>-->
+<!--            <version>1.27</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.jenkins-ci</groupId>-->
+<!--            <artifactId>annotation-indexer</artifactId>-->
+<!--            <version>1.16</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>jcl-over-slf4j</artifactId>-->
+<!--            <version>2.0.1</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>log4j-over-slf4j</artifactId>-->
+<!--            <version>2.0.1</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-jdk14</artifactId>-->
+<!--            <version>2.0.1</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-api</artifactId>-->
+<!--            <version>2.0.1</version>-->
+<!--        </dependency>-->
+
+
+
+
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>central</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+            <id>jenkins</id>
+            <name>jenkins-releases</name>
+            <url>https://repo.jenkins-ci.org/releases</url>
+        </repository>
+        <repository>
+            <id>jenkins-public</id>
+            <name>jenkins-public</name>
+            <url>https://repo.jenkins-ci.org/public</url>
+        </repository>
+        <repository>
+            <id>repo.jenkins-ci.org</id>
+            <url>https://repo.jenkins-ci.org/public/</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repo.jenkins-ci.org</id>
+            <url>https://repo.jenkins-ci.org/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+</project>
