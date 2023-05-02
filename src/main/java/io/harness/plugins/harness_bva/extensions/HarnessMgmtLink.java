@@ -1,9 +1,10 @@
 package io.harness.plugins.harness_bva.extensions;
 
+import hudson.Extension;
 import hudson.model.Hudson;
 import hudson.model.ManagementLink;
 import hudson.util.Secret;
-import io.harness.plugins.harness_bva.plugins.PropeloPluginImpl;
+import io.harness.plugins.harness_bva.plugins.HarnessBVAPluginImpl;
 import jenkins.model.Jenkins;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
@@ -15,6 +16,7 @@ import java.lang.invoke.MethodHandles;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Extension
 public class HarnessMgmtLink extends ManagementLink {
     private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     public static final String PLUGIN_NAME = "harness-bva";
@@ -46,39 +48,24 @@ public class HarnessMgmtLink extends ManagementLink {
 
     @POST
     public void doSaveSettings(final StaplerRequest res, final StaplerResponse rsp,
-                               @QueryParameter("levelOpsApiKey") final String levelOpsApiKey,
-                               @QueryParameter("levelOpsPluginPath") final String levelOpsPluginPath,
-                               @QueryParameter("jenkinsBaseUrl") final String jenkinsBaseUrl,
-                               @QueryParameter("jenkinsUserName") final String jenkinsUserName,
-                               @QueryParameter("jenkinsUserToken") final String jenkinsUserToken,
-                               @QueryParameter("bullseyeXmlResultPaths") final String bullseyeXmlResultPaths,
-                               @QueryParameter("productIds") final String productIds,
-                               @QueryParameter("jenkinsInstanceName") final String jenkinsInstanceName,
-                               @QueryParameter("trustAllCertificates") final boolean trustAllCertificates
+                               @QueryParameter("pluginPath") final String pluginPath,
+                               @QueryParameter("jenkinsInstanceName") final String jenkinsInstanceName
     ) throws IOException {
-        LOGGER.log(Level.FINE, "Starting doSaveSettings, levelOpsApiKey = {0}, levelOpsPluginPath = {1}, " +
-                        "jenkinsBaseUrl = {2}, jenkinsUserName = {3}, jenkinsUserToken = {4}, productIds = {5}, jenkinsInstanceName = {6}, trustAllCertificates = {7}, bullseyeXmlResultPaths = {8}",
-                new Object[] {levelOpsApiKey, levelOpsPluginPath, jenkinsBaseUrl, jenkinsUserName, jenkinsUserToken, productIds, jenkinsInstanceName, trustAllCertificates,bullseyeXmlResultPaths});
+        LOGGER.log(Level.FINE, "Starting doSaveSettings, pluginPath = {0}, jenkinsInstanceName = {1}",
+                new Object[] { pluginPath, jenkinsInstanceName });
 
         Hudson.getInstance().checkPermission(Hudson.ADMINISTER);
 
-        final PropeloPluginImpl plugin = PropeloPluginImpl.getInstance();
-        plugin.setLevelOpsApiKey(Secret.fromString(levelOpsApiKey));
-        plugin.setLevelOpsPluginPath(levelOpsPluginPath);
-        plugin.setJenkinsBaseUrl(Jenkins.get().getRootUrl());
-        plugin.setJenkinsUserName(jenkinsUserName);
-        plugin.setJenkinsUserToken(Secret.fromString(jenkinsUserToken));
-        plugin.setBullseyeXmlResultPath(bullseyeXmlResultPaths);
-        plugin.setProductIds(productIds);
+        final HarnessBVAPluginImpl plugin = HarnessBVAPluginImpl.getInstance();
+        plugin.setPluginPath(pluginPath);
         plugin.setJenkinsInstanceName(jenkinsInstanceName);
-        plugin.setTrustAllCertificates(trustAllCertificates);
         plugin.save();
         LOGGER.log(Level.CONFIG, "Saving plugin settings done. plugin = {0}", plugin);
         rsp.sendRedirect(res.getContextPath() + "/" + PLUGIN_NAME);
     }
 
-    public PropeloPluginImpl getConfiguration() {
-        return PropeloPluginImpl.getInstance();
+    public HarnessBVAPluginImpl getConfiguration() {
+        return HarnessBVAPluginImpl.getInstance();
     }
 
     public String getJenkinsStatus() {
