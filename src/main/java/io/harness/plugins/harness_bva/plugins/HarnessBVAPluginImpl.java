@@ -28,12 +28,16 @@ public class HarnessBVAPluginImpl extends Plugin {
     private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
     private static final String DATA_DIR_NAME = "run-complete-data";
     public static final String PLUGIN_SHORT_NAME = "propelo-job-reporter";
-    private String pluginPath = "${JENKINS_HOME}/harness-bva";
+
+    //region Data Members
     private String jenkinsInstanceName = "Jenkins Instance";
-    public Boolean isRegistered = false;
-    private String jenkinsStatus = "";
+    private String pluginPath = "${JENKINS_HOME}/harness-bva";
+    private String buildJobConfigs = "";
+    private String deploymentJobConfigs = "";
+    private String rollbackJobConfigs = "";
     private long heartbeatDuration = 60;
     private long configUpdatedAt = System.currentTimeMillis();
+    //endregion
 
     //ToDo: This is deprecated! Fix soon.
     public HarnessBVAPluginImpl() {
@@ -45,8 +49,6 @@ public class HarnessBVAPluginImpl extends Plugin {
         load();
         LOGGER.fine("'" + HarnessMgmtLink.PLUGIN_DISPLAY_NAME + "' plugin initialized.");
     }
-
-
 
     public static HarnessBVAPluginImpl getInstance() {
         final Jenkins jenkins = Jenkins.getInstanceOrNull();
@@ -63,6 +65,15 @@ public class HarnessBVAPluginImpl extends Plugin {
         return (jenkins == null) ? null : jenkins.getRootDir();
     }
 
+    //region Getter & Setter
+    public String getJenkinsInstanceName() {
+        return jenkinsInstanceName;
+    }
+
+    public void setJenkinsInstanceName(String jenkinsInstanceName) {
+        this.jenkinsInstanceName = jenkinsInstanceName;
+    }
+
     /**
      * Get the Propelo plugin path as entered by the user. May contain environment variables.
      *
@@ -72,6 +83,30 @@ public class HarnessBVAPluginImpl extends Plugin {
      */
     public String getPluginPath() {
         return pluginPath;
+    }
+
+    public String getBuildJobConfigs() {
+        return buildJobConfigs;
+    }
+
+    public void setBuildJobConfigs(String buildJobConfigs) {
+        this.buildJobConfigs = buildJobConfigs;
+    }
+
+    public String getDeploymentJobConfigs() {
+        return deploymentJobConfigs;
+    }
+
+    public void setDeploymentJobConfigs(String deploymentJobConfigs) {
+        this.deploymentJobConfigs = deploymentJobConfigs;
+    }
+
+    public String getRollbackJobConfigs() {
+        return rollbackJobConfigs;
+    }
+
+    public void setRollbackJobConfigs(String rollbackJobConfigs) {
+        this.rollbackJobConfigs = rollbackJobConfigs;
     }
 
     public void setPluginPath(String pluginPath) {
@@ -96,14 +131,6 @@ public class HarnessBVAPluginImpl extends Plugin {
         return expandedPath;
     }
 
-    public String getJenkinsStatus() {
-        return jenkinsStatus;
-    }
-
-    public void setJenkinsStatus(String jenkinsStatus) {
-        this.jenkinsStatus = jenkinsStatus;
-    }
-
     public long getConfigUpdatedAt() {
         return configUpdatedAt;
     }
@@ -124,11 +151,6 @@ public class HarnessBVAPluginImpl extends Plugin {
         return new File(this.getExpandedPluginPath());
     }
 
-
-    public Boolean isRegistered() {
-        return isRegistered;
-    }
-
     public boolean isExpandedPluginPathNullOrEmpty(){
         return StringUtils.isEmpty(getExpandedPluginPath());
     }
@@ -139,8 +161,7 @@ public class HarnessBVAPluginImpl extends Plugin {
     public File getReportsDirectory() {
         return buildReportsDirectory(this.getExpandedPluginPath());
     }
-
-
+    //endregion
 
     public String getPluginVersionString() {
         LOGGER.log(Level.FINEST, "getPluginVersionString starting");
@@ -180,27 +201,7 @@ public class HarnessBVAPluginImpl extends Plugin {
         return dataDirWithRotation;
     }
 
-    private List<String> parseProductIdsList(String productIds){
-        if((productIds == null) || (productIds.length() == 0)){
-            return Collections.emptyList();
-        }
-        String[] productIdsSplit = productIds.split(",");
-        if((productIdsSplit == null) || (productIdsSplit.length ==0)){
-            return Collections.emptyList();
-        }
-        return Arrays.asList(productIdsSplit);
-    }
-
-    public String getJenkinsInstanceName() {
-        return jenkinsInstanceName;
-    }
-
-    public void setJenkinsInstanceName(String jenkinsInstanceName) {
-        this.jenkinsInstanceName = jenkinsInstanceName;
-    }
-
-
-
+    //region Checks
     public FormValidation doCheckJenkinsInstanceName(final StaplerRequest res, final StaplerResponse rsp,
                                                      @QueryParameter("value") final String jenkinsInstanceName) {
         if((jenkinsInstanceName == null) || (jenkinsInstanceName.length() == 0)){
@@ -209,7 +210,6 @@ public class HarnessBVAPluginImpl extends Plugin {
             return FormValidation.ok();
         }
     }
-
     @POST
     public FormValidation doCheckPluginPath(final StaplerRequest res, final StaplerResponse rsp,
                                             @QueryParameter("value") final String path) {
@@ -259,4 +259,17 @@ public class HarnessBVAPluginImpl extends Plugin {
             return FormValidation.ok();
         }
     }
+    public FormValidation doCheckBuildJobConfigs(final StaplerRequest res, final StaplerResponse rsp,
+                                                     @QueryParameter("value") final String buildJobConfigs) {
+        return FormValidation.ok();
+    }
+    public FormValidation doCheckDeploymentJobConfigs(final StaplerRequest res, final StaplerResponse rsp,
+                                                 @QueryParameter("value") final String deploymentJobConfigs) {
+        return FormValidation.ok();
+    }
+    public FormValidation doCheckRollbackJobConfigs(final StaplerRequest res, final StaplerResponse rsp,
+                                                 @QueryParameter("value") final String rollbackJobConfigs) {
+        return FormValidation.ok();
+    }
+    //endregion
 }

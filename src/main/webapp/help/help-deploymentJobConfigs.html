@@ -1,0 +1,15 @@
+<div>
+    <p>
+        Configuration for Deployment Jobs in JSON format.
+        A deployment job can be specified in two ways:
+        1) Specify the job name. e.g. Job Name is "Deploy some code".
+        2) Specify the job name & job parameter. e.g. Job Name is "Deploy some code" and Job Param Name is "region" and Job Param Value is "us-west".
+    </p>
+    <p>
+        <b>NOTE:</b><br/>  The job name, param name & param value all support regex.
+    </p>
+    <p>
+        Example:
+        [{"jobName": "deploy service 1"}, {"jobName": "deploy service 2", "paramKey": "region", "paramValue": "us-west"}]
+    </p>
+</div>

@@ -49,16 +49,22 @@ public class HarnessMgmtLink extends ManagementLink {
     @POST
     public void doSaveSettings(final StaplerRequest res, final StaplerResponse rsp,
                                @QueryParameter("pluginPath") final String pluginPath,
-                               @QueryParameter("jenkinsInstanceName") final String jenkinsInstanceName
+                               @QueryParameter("jenkinsInstanceName") final String jenkinsInstanceName,
+                               @QueryParameter("buildJobConfigs") final String buildJobConfigs,
+                               @QueryParameter("deploymentJobConfigs") final String deploymentJobConfigs,
+                               @QueryParameter("rollbackJobConfigs") final String rollbackJobConfigs
     ) throws IOException {
-        LOGGER.log(Level.FINE, "Starting doSaveSettings, pluginPath = {0}, jenkinsInstanceName = {1}",
-                new Object[] { pluginPath, jenkinsInstanceName });
+        LOGGER.log(Level.FINE, "Starting doSaveSettings, pluginPath = {0}, jenkinsInstanceName = {1}, buildJobConfigs = {2}, deploymentJobConfigs = {3}, rollbackJobConfigs = {4}",
+                new Object[] { pluginPath, jenkinsInstanceName, buildJobConfigs, deploymentJobConfigs, rollbackJobConfigs });
 
         Hudson.getInstance().checkPermission(Hudson.ADMINISTER);
 
         final HarnessBVAPluginImpl plugin = HarnessBVAPluginImpl.getInstance();
         plugin.setPluginPath(pluginPath);
         plugin.setJenkinsInstanceName(jenkinsInstanceName);
+        plugin.setBuildJobConfigs(buildJobConfigs);
+        plugin.setDeploymentJobConfigs(deploymentJobConfigs);
+        plugin.setRollbackJobConfigs(rollbackJobConfigs);
         plugin.save();
         LOGGER.log(Level.CONFIG, "Saving plugin settings done. plugin = {0}", plugin);
         rsp.sendRedirect(res.getContextPath() + "/" + PLUGIN_NAME);
@@ -66,9 +72,5 @@ public class HarnessMgmtLink extends ManagementLink {
 
     public HarnessBVAPluginImpl getConfiguration() {
         return HarnessBVAPluginImpl.getInstance();
-    }
-
-    public String getJenkinsStatus() {
-        return getConfiguration().getJenkinsStatus();
     }
 }
