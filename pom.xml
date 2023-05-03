@@ -177,6 +177,15 @@
 
 
 
+
+        <!-- https://mvnrepository.com/artifact/io.jenkins.plugins/ionicons-api -->
+        <dependency>
+            <groupId>io.jenkins.plugins</groupId>
+            <artifactId>ionicons-api</artifactId>
+            <version>18.vc77ffb_e360c3</version>
+        </dependency>
+
+
     </dependencies>
 
     <repositories>
