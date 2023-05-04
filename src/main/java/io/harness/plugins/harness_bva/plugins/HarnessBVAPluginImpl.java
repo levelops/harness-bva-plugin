@@ -5,10 +5,12 @@ import hudson.util.FormValidation;
 import hudson.util.Secret;
 import io.harness.plugins.harness_bva.exceptions.EnvironmentVariableNotDefinedException;
 import io.harness.plugins.harness_bva.extensions.HarnessMgmtLink;
+import io.harness.plugins.harness_bva.models.JobConfig;
 import io.harness.plugins.harness_bva.utils.DateUtils;
 import io.harness.plugins.harness_bva.utils.Utils;
 import jenkins.model.Jenkins;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
@@ -259,17 +261,27 @@ public class HarnessBVAPluginImpl extends Plugin {
             return FormValidation.ok();
         }
     }
+
+    private FormValidation checkJobConfigs(String jobConfigs) {
+        ImmutablePair<List<JobConfig>, String> result = JobConfig.validate(jobConfigs);
+        String error = result.getRight();
+        if (StringUtils.isBlank(error)) {
+            return FormValidation.ok();
+        } else {
+            return FormValidation.error(error);
+        }
+    }
     public FormValidation doCheckBuildJobConfigs(final StaplerRequest res, final StaplerResponse rsp,
                                                      @QueryParameter("value") final String buildJobConfigs) {
-        return FormValidation.ok();
+        return checkJobConfigs(buildJobConfigs);
     }
     public FormValidation doCheckDeploymentJobConfigs(final StaplerRequest res, final StaplerResponse rsp,
                                                  @QueryParameter("value") final String deploymentJobConfigs) {
-        return FormValidation.ok();
+        return checkJobConfigs(deploymentJobConfigs);
     }
     public FormValidation doCheckRollbackJobConfigs(final StaplerRequest res, final StaplerResponse rsp,
                                                  @QueryParameter("value") final String rollbackJobConfigs) {
-        return FormValidation.ok();
+        return checkJobConfigs(rollbackJobConfigs);
     }
     //endregion
 }

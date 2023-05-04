@@ -28,21 +28,21 @@
             <div class="jenkins-buttons-row jenkins-!-padding-3">
                 <a href="backupManual" style="text-decoration: none;">
                     <button class="jenkins-button" tooltip="${%backup_manual_tooltip}">
-                        <l:icon src="symbol-document-text-outline plugin-ionicons-api"/>
+                        <l:icon src="symbol-document-text-outline plugin-ionicons-api" class="icon-xlg"/>
                         ${%backup_now}
                     </button>
                 </a>
 
                 <a href="restoreOptions" style="text-decoration: none;">
                     <button class="jenkins-button" tooltip="${%restore_options_tooltip}">
-                        <l:icon src="symbol-stats-chart-outline plugin-ionicons-api"/>
+                        <l:icon src="symbol-stats-chart-outline plugin-ionicons-api" class="icon-xlg"/>
                         ${%restore}
                     </button>
                 </a>
 
                 <a href="restoreOptions" style="text-decoration: none;">
                     <button class="jenkins-button" tooltip="${%restore_options_tooltip}">
-                        <l:icon src="symbol-pulse-outline plugin-ionicons-api"/>
+                        <l:icon src="symbol-pulse-outline plugin-ionicons-api" class="icon-xlg"/>
                         ${%restore}
                     </button>
                 </a>
@@ -51,7 +51,7 @@
                 <a href="settings" style="text-decoration: none;">
                     <button class="jenkins-button"
                             tooltip="${%backup_settings_tooltip}">
-                        <l:icon src="symbol-cog-outline plugin-ionicons-api"/>
+                        <l:icon src="symbol-cog-outline plugin-ionicons-api" class="icon-xlg"/>
                         ${%settings}
                     </button>
                 </a>
