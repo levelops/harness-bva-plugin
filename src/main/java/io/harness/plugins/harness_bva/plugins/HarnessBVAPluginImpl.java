@@ -1,8 +1,9 @@
 package io.harness.plugins.harness_bva.plugins;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hudson.Plugin;
+import hudson.model.AbstractDescribableImpl;
 import hudson.util.FormValidation;
-import hudson.util.Secret;
 import io.harness.plugins.harness_bva.exceptions.EnvironmentVariableNotDefinedException;
 import io.harness.plugins.harness_bva.extensions.HarnessMgmtLink;
 import io.harness.plugins.harness_bva.models.JobConfig;
@@ -11,6 +12,7 @@ import io.harness.plugins.harness_bva.utils.Utils;
 import jenkins.model.Jenkins;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
@@ -18,8 +20,7 @@ import org.kohsuke.stapler.verb.POST;
 
 import java.io.File;
 import java.lang.invoke.MethodHandles;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,6 +40,8 @@ public class HarnessBVAPluginImpl extends Plugin {
     private String rollbackJobConfigs = "";
     private long heartbeatDuration = 60;
     private long configUpdatedAt = System.currentTimeMillis();
+
+    private List<JobConfigDAO> servers = new ArrayList<>();
     //endregion
 
     //ToDo: This is deprecated! Fix soon.
@@ -163,7 +166,29 @@ public class HarnessBVAPluginImpl extends Plugin {
     public File getReportsDirectory() {
         return buildReportsDirectory(this.getExpandedPluginPath());
     }
+
+    public List<JobConfigDAO> getServers() {
+        return servers;
+    }
+
+    public void setServers(List<JobConfigDAO> servers) {
+        this.servers = servers;
+    }
+
     //endregion
+
+
+    @Override
+    public String toString() {
+        return "HarnessBVAPluginImpl{" +
+                "jenkinsInstanceName='" + jenkinsInstanceName + '\'' +
+                ", pluginPath='" + pluginPath + '\'' +
+                ", buildJobConfigs='" + buildJobConfigs + '\'' +
+                ", deploymentJobConfigs='" + deploymentJobConfigs + '\'' +
+                ", rollbackJobConfigs='" + rollbackJobConfigs + '\'' +
+                ", servers=" + servers +
+                '}';
+    }
 
     public String getPluginVersionString() {
         LOGGER.log(Level.FINEST, "getPluginVersionString starting");
@@ -284,4 +309,84 @@ public class HarnessBVAPluginImpl extends Plugin {
         return checkJobConfigs(rollbackJobConfigs);
     }
     //endregion
+
+    public static class JobConfigDAO extends AbstractDescribableImpl<JobConfigDAO> {
+        @JsonProperty("jobName")
+        public String jobName;
+        @JsonProperty("filterParams")
+        public FilterParams filterParams;
+
+        public JobConfigDAO() {
+        }
+
+        @DataBoundConstructor
+        public JobConfigDAO(String jobName, FilterParams FilterParams) {
+            this.jobName = jobName;
+            this.filterParams = FilterParams;
+        }
+
+        public String getJobName() {
+            return jobName;
+        }
+
+        public void setJobName(String jobName) {
+            this.jobName = jobName;
+        }
+
+        public HarnessBVAPluginImpl.FilterParams getFilterParams() {
+            return filterParams;
+        }
+
+        public void setFilterParams(HarnessBVAPluginImpl.FilterParams filterParams) {
+            this.filterParams = filterParams;
+        }
+
+        @Override
+        public String toString() {
+            return "JobConfigDAO{" +
+                    "jobName='" + jobName + '\'' +
+                    ", filterParams='" + String.valueOf(filterParams) + '\'' +
+                    '}';
+        }
+    }
+
+    public static class FilterParams extends AbstractDescribableImpl<FilterParams> {
+        @JsonProperty("paramName")
+        public String paramName;
+        @JsonProperty("paramValue")
+        public String paramValue;
+
+        public FilterParams() {
+        }
+
+        @DataBoundConstructor
+        public FilterParams(String paramName, String paramValue) {
+            this.paramName = paramName;
+            this.paramValue = paramValue;
+        }
+
+        public String getParamName() {
+            return paramName;
+        }
+
+        public void setParamName(String paramName) {
+            this.paramName = paramName;
+        }
+
+        public String getParamValue() {
+            return paramValue;
+        }
+
+        public void setParamValue(String paramValue) {
+            this.paramValue = paramValue;
+        }
+
+        @Override
+        public String toString() {
+            return "JobConfigDAO{" +
+                    "paramName='" + paramName + '\'' +
+                    ", paramValue='" + paramValue + '\'' +
+                    '}';
+        }
+    }
 }

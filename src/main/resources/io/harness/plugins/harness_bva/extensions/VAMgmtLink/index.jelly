@@ -8,7 +8,7 @@
                 ${it.displayName} Settings
             </h1>
 
-            <f:form method="post" action="saveSettings">
+            <f:form method="post" action="configSubmit">
                 <f:entry title="Propelo Plugins Directory" field="pluginPath"
                          help="/plugin/${it.urlName}/help/help-pluginPath.html">
                     <f:textbox value="${it.configuration.pluginPath}" name="pluginPath"
@@ -23,49 +23,26 @@
                     </f:entry>
                 </f:section>
 
-                <f:section title="Job Configs">
-                    <f:entry title="Build Jobs" field="buildJobConfigs"
-                             help="/plugin/${it.urlName}/help/help-buildJobConfigs.html">
-                        <f:textbox value="${it.configuration.buildJobConfigs}" name="buildJobConfigs"
-                                   checkUrl="'${rootURL}/plugin/${it.urlName}/checkBuildJobConfigs?value='+escape(this.value)"/>
-                    </f:entry>
-                    <f:entry title="Deployment Jobs" field="deploymentJobConfigs"
-                             help="/plugin/${it.urlName}/help/help-deploymentJobConfigs.html">
-                        <f:textbox value="${it.configuration.deploymentJobConfigs}" name="deploymentJobConfigs"
-                                   checkUrl="'${rootURL}/plugin/${it.urlName}/checkDeploymentJobConfigs?value='+escape(this.value)"/>
-                    </f:entry>
-                    <f:entry title="Rollback Jobs" field="rollbackJobConfigs"
-                             help="/plugin/${it.urlName}/help/help-rollbackJobConfigs.html">
-                        <f:textbox value="${it.configuration.rollbackJobConfigs}" name="rollbackJobConfigs"
-                                   checkUrl="'${rootURL}/plugin/${it.urlName}/checkRollbackJobConfigs?value='+escape(this.value)"/>
-                    </f:entry>
-                </f:section>
-
                 <f:section title="Monitoring settings">
-<!--                    <f:repeatable var="projectInList" name="projects" items="${instance.projects}" noAddButton="true" minimum="0">-->
-                    <f:repeatable var="servers" name="servers" items="${it.configuration.servers}" field="servers" minimum="0">
+                    <!--                    <f:repeatable var="projectInList" name="projects" items="${instance.projects}" noAddButton="true" minimum="0">-->
+                    <f:repeatable var="servers" name="servers" items="${it.servers}" field="servers" minimum="0">
                         <table width="90%">
                             <f:entry title="Job Name"  field="jobName" >
-                                <f:textbox value="${servers.jobName}" />
+                                <f:textbox />
                             </f:entry>
                             <f:optionalBlock title="Filter Job Run Parameters"
                                              help="/plugin/${it.urlName}/help/help-trustAllCertificates.html"
                                              field="filterParams" >
                                 <f:entry title="Param Name"  field="paramName" >
-                                    <f:textbox value="${servers.paramName}" />
+                                    <f:textbox />
                                 </f:entry>
                                 <f:entry title="Param Value"  field="paramValue" >
-                                    <f:textbox value="${servers.paramValue}" />
+                                    <f:textbox />
                                 </f:entry>
                             </f:optionalBlock>
                         </table>
                         <f:repeatableDeleteButton />
                     </f:repeatable>
-
-                    <f:optionalBlock title="Trust All Certificates"
-                                     help="/plugin/${it.urlName}/help/help-trustAllCertificates.html"
-                                     checked="${it.configuration.trustAllCertificates}"
-                                     name="trustAllCertificates" />
                 </f:section>
 
                 <f:section>
