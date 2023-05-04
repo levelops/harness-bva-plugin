@@ -3,9 +3,10 @@ package io.harness.plugins.harness_bva.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-public class JobRunDetails {
+public class JobRunDetailsLite {
     @JsonProperty("job_name")
     private String jobName;
 
@@ -16,7 +17,7 @@ public class JobRunDetails {
     private String jobNormalizedFullName;
 
     @JsonProperty("job_run_params")
-    private List<JobRunParam> jobRunParams;
+    private Map<String, String> jobRunParams;
 
     @JsonProperty("build_number")
     private long buildNumber;
@@ -30,10 +31,6 @@ public class JobRunDetails {
     private String result;
     @JsonProperty("duration")
     private long duration;
-    @JsonProperty("branch_name")
-    private String branchName;
-    @JsonProperty("module_name")
-    private String moduleName;
-    @JsonProperty("trigger_chain")
-    private Set<JobTrigger> triggerChain;
+    @JsonProperty("trigger_type")
+    private String triggerType;
 }
