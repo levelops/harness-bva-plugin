@@ -1,10 +1,11 @@
 package io.harness.plugins.harness_bva.extensions;
 
+import com.google.common.base.Predicate;
 import hudson.Extension;
 import hudson.model.Hudson;
 import hudson.model.ManagementLink;
-import hudson.util.Secret;
-import io.harness.plugins.harness_bva.models.JobConfigIntermediate;
+import io.harness.plugins.harness_bva.internal.Sites;
+import io.harness.plugins.harness_bva.internal.UpdateSite;
 import io.harness.plugins.harness_bva.plugins.HarnessBVAPluginImpl;
 import io.harness.plugins.harness_bva.utils.JsonUtils;
 import jenkins.model.Jenkins;
@@ -13,6 +14,7 @@ import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 import org.kohsuke.stapler.verb.POST;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.List;
@@ -50,13 +52,45 @@ public class HarnessMgmtLink extends ManagementLink {
         return PLUGIN_DESCRIPTION;
     }
 
+    public List<UpdateSite> getManagedUpdateSiteList() {
+        List<UpdateSite> abc = HarnessBVAPluginImpl.getInstance().getManaged();
+        LOGGER.log(Level.SEVERE, "Imp getManagedUpdateSiteList = {0}",
+                new Object[] { abc });
+        return abc;
+    }
+    public List<UpdateSite> getBuildConfigsList() {
+        List<UpdateSite> abc = HarnessBVAPluginImpl.getInstance().getBuildConfigs();
+        LOGGER.log(Level.SEVERE, "Imp getBuildConfigsList = {0}",
+                new Object[] { abc });
+        return abc;
+    }
+    public List<UpdateSite> getDeploymentConfigsList() {
+        List<UpdateSite> abc = HarnessBVAPluginImpl.getInstance().getDeploymentConfigs();
+        LOGGER.log(Level.SEVERE, "Imp getDeploymentConfigsList = {0}",
+                new Object[] { abc });
+        return abc;
+    }
+    public List<UpdateSite> getRollbackConfigsList() {
+        List<UpdateSite> abc = HarnessBVAPluginImpl.getInstance().getRollbackConfigs();
+        LOGGER.log(Level.SEVERE, "Imp getRollbackConfigsList = {0}",
+                new Object[] { abc });
+        return abc;
+    }
+
+    public List<DescribedUpdateSiteDescriptopr> getUpdateSiteDescriptorList() {
+        return DescribedUpdateSite.all();
+    }
+
+
+
     @POST
     public void doSaveSettings(final StaplerRequest res, final StaplerResponse rsp,
                                @QueryParameter("pluginPath") final String pluginPath,
                                @QueryParameter("jenkinsInstanceName") final String jenkinsInstanceName,
                                @QueryParameter("buildJobConfigs") final String buildJobConfigs,
                                @QueryParameter("deploymentJobConfigs") final String deploymentJobConfigs,
-                               @QueryParameter("rollbackJobConfigs") final String rollbackJobConfigs
+                               @QueryParameter("rollbackJobConfigs") final String rollbackJobConfigs,
+                               @Sites Map<String,List<UpdateSite>> parsed
     ) throws IOException {
         Map<String, String[]> abc = res.getParameterMap();
         String data = JsonUtils.get().writeValueAsString(abc);
@@ -73,6 +107,14 @@ public class HarnessMgmtLink extends ManagementLink {
         List<HarnessBVAPluginImpl.JobConfigDAO> servers = copy.getServers();
         LOGGER.log(Level.SEVERE, "Imp doSaveSettings, servers = {0}",
                 new Object[] { servers });
+        LOGGER.log(Level.SEVERE, "Imp doSaveSettings, managed = {0}",
+                new Object[] { parsed.get("managed") });
+        LOGGER.log(Level.SEVERE, "Imp doSaveSettings, build = {0}",
+                new Object[] { parsed.get("build") });
+        LOGGER.log(Level.SEVERE, "Imp doSaveSettings, deployment = {0}",
+                new Object[] { parsed.get("deployment") });
+        LOGGER.log(Level.SEVERE, "Imp doSaveSettings, rollback = {0}",
+                new Object[] { parsed.get("rollback") });
 
 
         LOGGER.log(Level.FINE, "Starting doSaveSettings, pluginPath = {0}, jenkinsInstanceName = {1}, buildJobConfigs = {2}, deploymentJobConfigs = {3}, rollbackJobConfigs = {4}",
@@ -87,12 +129,30 @@ public class HarnessMgmtLink extends ManagementLink {
         plugin.setDeploymentJobConfigs(deploymentJobConfigs);
         plugin.setRollbackJobConfigs(rollbackJobConfigs);
         plugin.setServers(servers);
+        plugin.setManaged(parsed.get("managed"));
+        plugin.setBuildConfigs(parsed.get("build"));
+        plugin.setDeploymentConfigs(parsed.get("deployment"));
+        plugin.setRollbackConfigs(parsed.get("rollback"));
         plugin.save();
         LOGGER.log(Level.CONFIG, "Saving plugin settings done. plugin = {0}", plugin);
+
+        final HarnessBVAPluginImpl pluginRead = HarnessBVAPluginImpl.getInstance();
+        LOGGER.log(Level.SEVERE, "Imp doSaveSettings, read servers = {0}",
+                new Object[] { pluginRead.getServers() });
+        LOGGER.log(Level.SEVERE, "Imp doSaveSettings, read managed = {0}",
+                new Object[] { pluginRead.getManaged() });
+
         rsp.sendRedirect(res.getContextPath() + "/" + PLUGIN_NAME);
     }
 
     public HarnessBVAPluginImpl getConfiguration() {
         return HarnessBVAPluginImpl.getInstance();
+    }
+
+    public static class IsSiteManaged implements Predicate<UpdateSite> {
+        @Override
+        public boolean apply(@Nullable UpdateSite input) {
+            return input instanceof DescribedUpdateSite;
+        }
     }
 }

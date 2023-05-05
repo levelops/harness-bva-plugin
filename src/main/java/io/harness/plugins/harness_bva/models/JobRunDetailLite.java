@@ -2,11 +2,9 @@ package io.harness.plugins.harness_bva.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-public class JobRunDetailsLite {
+public class JobRunDetailLite {
     @JsonProperty("job_name")
     private String jobName;
 

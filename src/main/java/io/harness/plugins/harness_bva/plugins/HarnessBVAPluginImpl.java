@@ -3,9 +3,11 @@ package io.harness.plugins.harness_bva.plugins;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import hudson.Plugin;
 import hudson.model.AbstractDescribableImpl;
+
 import hudson.util.FormValidation;
 import io.harness.plugins.harness_bva.exceptions.EnvironmentVariableNotDefinedException;
 import io.harness.plugins.harness_bva.extensions.HarnessMgmtLink;
+import io.harness.plugins.harness_bva.internal.UpdateSite;
 import io.harness.plugins.harness_bva.models.JobConfig;
 import io.harness.plugins.harness_bva.utils.DateUtils;
 import io.harness.plugins.harness_bva.utils.Utils;
@@ -42,6 +44,10 @@ public class HarnessBVAPluginImpl extends Plugin {
     private long configUpdatedAt = System.currentTimeMillis();
 
     private List<JobConfigDAO> servers = new ArrayList<>();
+    private List<UpdateSite> managed = new ArrayList<>();
+    private List<UpdateSite> buildConfigs = new ArrayList<>();
+    private List<UpdateSite> deploymentConfigs = new ArrayList<>();
+    private List<UpdateSite> rollbackConfigs = new ArrayList<>();
     //endregion
 
     //ToDo: This is deprecated! Fix soon.
@@ -175,6 +181,38 @@ public class HarnessBVAPluginImpl extends Plugin {
         this.servers = servers;
     }
 
+    public List<UpdateSite> getManaged() {
+        return managed;
+    }
+
+    public void setManaged(List<UpdateSite> managed) {
+        this.managed = managed;
+    }
+
+    public List<UpdateSite> getBuildConfigs() {
+        return buildConfigs;
+    }
+
+    public void setBuildConfigs(List<UpdateSite> buildConfigs) {
+        this.buildConfigs = buildConfigs;
+    }
+
+    public List<UpdateSite> getDeploymentConfigs() {
+        return deploymentConfigs;
+    }
+
+    public void setDeploymentConfigs(List<UpdateSite> deploymentConfigs) {
+        this.deploymentConfigs = deploymentConfigs;
+    }
+
+    public List<UpdateSite> getRollbackConfigs() {
+        return rollbackConfigs;
+    }
+
+    public void setRollbackConfigs(List<UpdateSite> rollbackConfigs) {
+        this.rollbackConfigs = rollbackConfigs;
+    }
+
     //endregion
 
 
@@ -186,6 +224,10 @@ public class HarnessBVAPluginImpl extends Plugin {
                 ", buildJobConfigs='" + buildJobConfigs + '\'' +
                 ", deploymentJobConfigs='" + deploymentJobConfigs + '\'' +
                 ", rollbackJobConfigs='" + rollbackJobConfigs + '\'' +
+                ", managed='" + managed + '\'' +
+                ", buildConfigs='" + buildConfigs + '\'' +
+                ", deploymentConfigs='" + deploymentConfigs + '\'' +
+                ", rollbackConfigs='" + rollbackConfigs + '\'' +
                 ", servers=" + servers +
                 '}';
     }
