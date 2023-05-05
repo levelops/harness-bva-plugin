@@ -41,46 +41,15 @@
                     </f:entry>
                 </f:section>
 
-                <f:section title="Monitoring settings">
-<!--                    <f:repeatable var="projectInList" name="projects" items="${instance.projects}" noAddButton="true" minimum="0">-->
-                    <f:repeatable var="server" name="servers" items="${it.servers}" field="servers" minimum="0">
-                        <table width="90%">
-                            <f:entry title="Job Name"  field="jobName" >
-                                <f:textbox value="${server.jobName}" />
-                            </f:entry>
-                            <f:optionalBlock title="Filter Job Run Parameters"
-                                             help="/plugin/${it.urlName}/help/help-trustAllCertificates.html"
-                                             field="filterParams" >
-                                <f:entry title="Param Name"  field="paramName" >
-                                    <f:textbox value="${server.filterParams.paramName}" />
-                                </f:entry>
-                                <f:entry title="Param Value"  field="paramValue" >
-                                    <f:textbox value="${server.filterParams.paramValue}" />
-                                </f:entry>
-                            </f:optionalBlock>
-                        </table>
-                        <f:repeatableDeleteButton />
-                    </f:repeatable>
-
-                    <f:optionalBlock title="Trust All Certificates"
-                                     help="/plugin/${it.urlName}/help/help-trustAllCertificates.html"
-                                     checked="${it.configuration.trustAllCertificates}"
-                                     name="trustAllCertificates" />
-                </f:section>
-
-                <f:section title="Abc">
-                    <f:hetero-list hasHeader="true" name="sites" items="${it.managedUpdateSiteList}"
-                                   descriptors="${it.updateSiteDescriptorList}"/>
-                </f:section>
-                <f:section title="Build">
+                <f:section title="Build Configuration">
                     <f:hetero-list hasHeader="true" name="bc" items="${it.buildConfigsList}"
                                    descriptors="${it.updateSiteDescriptorList}"/>
                 </f:section>
-                <f:section title="Deployment">
+                <f:section title="Deployment Configuration">
                     <f:hetero-list hasHeader="true" name="dc" items="${it.deploymentConfigsList}"
                                    descriptors="${it.updateSiteDescriptorList}"/>
                 </f:section>
-                <f:section title="Rollback">
+                <f:section title="Rollback Configuration">
                     <f:hetero-list hasHeader="true" name="rc" items="${it.rollbackConfigsList}"
                                    descriptors="${it.updateSiteDescriptorList}"/>
                 </f:section>

@@ -7,8 +7,7 @@ import hudson.model.AbstractDescribableImpl;
 import hudson.util.FormValidation;
 import io.harness.plugins.harness_bva.exceptions.EnvironmentVariableNotDefinedException;
 import io.harness.plugins.harness_bva.extensions.HarnessMgmtLink;
-import io.harness.plugins.harness_bva.internal.UpdateSite;
-import io.harness.plugins.harness_bva.models.JobConfig;
+import io.harness.plugins.harness_bva.internal.JobConfig;
 import io.harness.plugins.harness_bva.utils.DateUtils;
 import io.harness.plugins.harness_bva.utils.Utils;
 import jenkins.model.Jenkins;
@@ -42,12 +41,9 @@ public class HarnessBVAPluginImpl extends Plugin {
     private String rollbackJobConfigs = "";
     private long heartbeatDuration = 60;
     private long configUpdatedAt = System.currentTimeMillis();
-
-    private List<JobConfigDAO> servers = new ArrayList<>();
-    private List<UpdateSite> managed = new ArrayList<>();
-    private List<UpdateSite> buildConfigs = new ArrayList<>();
-    private List<UpdateSite> deploymentConfigs = new ArrayList<>();
-    private List<UpdateSite> rollbackConfigs = new ArrayList<>();
+    private List<JobConfig> buildConfigs = new ArrayList<>();
+    private List<JobConfig> deploymentConfigs = new ArrayList<>();
+    private List<JobConfig> rollbackConfigs = new ArrayList<>();
     //endregion
 
     //ToDo: This is deprecated! Fix soon.
@@ -172,44 +168,27 @@ public class HarnessBVAPluginImpl extends Plugin {
     public File getReportsDirectory() {
         return buildReportsDirectory(this.getExpandedPluginPath());
     }
-
-    public List<JobConfigDAO> getServers() {
-        return servers;
-    }
-
-    public void setServers(List<JobConfigDAO> servers) {
-        this.servers = servers;
-    }
-
-    public List<UpdateSite> getManaged() {
-        return managed;
-    }
-
-    public void setManaged(List<UpdateSite> managed) {
-        this.managed = managed;
-    }
-
-    public List<UpdateSite> getBuildConfigs() {
+    public List<JobConfig> getBuildConfigs() {
         return buildConfigs;
     }
 
-    public void setBuildConfigs(List<UpdateSite> buildConfigs) {
+    public void setBuildConfigs(List<JobConfig> buildConfigs) {
         this.buildConfigs = buildConfigs;
     }
 
-    public List<UpdateSite> getDeploymentConfigs() {
+    public List<JobConfig> getDeploymentConfigs() {
         return deploymentConfigs;
     }
 
-    public void setDeploymentConfigs(List<UpdateSite> deploymentConfigs) {
+    public void setDeploymentConfigs(List<JobConfig> deploymentConfigs) {
         this.deploymentConfigs = deploymentConfigs;
     }
 
-    public List<UpdateSite> getRollbackConfigs() {
+    public List<JobConfig> getRollbackConfigs() {
         return rollbackConfigs;
     }
 
-    public void setRollbackConfigs(List<UpdateSite> rollbackConfigs) {
+    public void setRollbackConfigs(List<JobConfig> rollbackConfigs) {
         this.rollbackConfigs = rollbackConfigs;
     }
 
@@ -224,11 +203,9 @@ public class HarnessBVAPluginImpl extends Plugin {
                 ", buildJobConfigs='" + buildJobConfigs + '\'' +
                 ", deploymentJobConfigs='" + deploymentJobConfigs + '\'' +
                 ", rollbackJobConfigs='" + rollbackJobConfigs + '\'' +
-                ", managed='" + managed + '\'' +
                 ", buildConfigs='" + buildConfigs + '\'' +
                 ", deploymentConfigs='" + deploymentConfigs + '\'' +
                 ", rollbackConfigs='" + rollbackConfigs + '\'' +
-                ", servers=" + servers +
                 '}';
     }
 
@@ -330,7 +307,7 @@ public class HarnessBVAPluginImpl extends Plugin {
     }
 
     private FormValidation checkJobConfigs(String jobConfigs) {
-        ImmutablePair<List<JobConfig>, String> result = JobConfig.validate(jobConfigs);
+        ImmutablePair<List<io.harness.plugins.harness_bva.models.JobConfig>, String> result = io.harness.plugins.harness_bva.models.JobConfig.validate(jobConfigs);
         String error = result.getRight();
         if (StringUtils.isBlank(error)) {
             return FormValidation.ok();
