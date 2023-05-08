@@ -160,4 +160,51 @@ public class JobConfig {
         List<JobConfig> jobConfigs = validationResult.getLeft();
         return jobConfigs;
     }
+
+    private static Pattern convertStringToPattern(String input){
+        try {
+            return Pattern.compile(input);
+        } catch (PatternSyntaxException e) {
+            //ToDo: VA
+            return null;
+        }
+    }
+    private static JobConfig fromDao(io.harness.plugins.harness_bva.internal.JobConfig jc){
+        if (jc == null) {
+            return null;
+        }
+        if (StringUtils.isBlank(jc.getJobName())) {
+            return null;
+        }
+        Pattern jn = convertStringToPattern(jc.getJobName());
+        boolean keyIsNullOrEmpty = StringUtils.isBlank(jc.getParamName());
+        boolean valueIsNullOrEmpty = StringUtils.isBlank(jc.getParamValue());
+        if (keyIsNullOrEmpty && valueIsNullOrEmpty) {
+            return new JobConfig(jn, null, null);
+        } else if (keyIsNullOrEmpty ^ valueIsNullOrEmpty) {
+            return new JobConfig(jn, null, null);
+        } else {
+            Pattern name = convertStringToPattern(jc.getParamName());
+            Pattern value = convertStringToPattern(jc.getParamValue());
+            if (name == null || value == null) {
+                return new JobConfig(jn, null, null);
+            } else {
+                return new JobConfig(jn, name, value);
+            }
+        }
+    }
+
+    public static List<JobConfig> fromDAO (final List<io.harness.plugins.harness_bva.internal.JobConfig> jobConfigs) {
+        if (CollectionUtils.isEmpty(jobConfigs)) {
+            return Collections.emptyList();
+        }
+        List<JobConfig> result = new ArrayList<>();
+        for(io.harness.plugins.harness_bva.internal.JobConfig jc : jobConfigs) {
+            JobConfig converted = fromDao(jc);
+            if (converted != null) {
+                result.add(converted);
+            }
+        }
+        return result;
+    }
 }

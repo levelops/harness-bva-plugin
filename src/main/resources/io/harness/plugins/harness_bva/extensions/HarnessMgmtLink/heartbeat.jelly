@@ -1,0 +1,26 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+    <l:layout permission="${app.ADMINISTER}" norefresh="true">
+        <st:include it="${app}" page="sidepanel.jelly"/>
+        <l:main-panel>
+            <h1>
+                ${it.displayName} Status
+            </h1>
+
+            <f:form method="post" action="saveHeartbeat">
+                <f:entry title="Lastest Job Run Monitored Time" field="levelOpsStatus"
+                         help="/plugin/${it.urlName}/help/help-jenkinsStatus.html">
+                    <f:readOnlyTextbox value="${it.heartbeatStatus}" name="heartbeatStatus"/>
+                </f:entry>
+
+                <f:section>
+                    <f:entry>
+                        <f:submit value="Close"/>
+                    </f:entry>
+                </f:section>
+            </f:form>
+
+        </l:main-panel>
+    </l:layout>
+</j:jelly>

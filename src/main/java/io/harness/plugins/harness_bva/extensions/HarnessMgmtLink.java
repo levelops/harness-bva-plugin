@@ -7,6 +7,7 @@ import hudson.model.ManagementLink;
 import io.harness.plugins.harness_bva.internal.Sites;
 import io.harness.plugins.harness_bva.internal.JobConfig;
 import io.harness.plugins.harness_bva.plugins.HarnessBVAPluginImpl;
+import io.harness.plugins.harness_bva.services.HeartbeatService;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
@@ -15,6 +16,7 @@ import org.kohsuke.stapler.verb.POST;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -125,7 +127,26 @@ public class HarnessMgmtLink extends ManagementLink {
         rsp.sendRedirect(res.getContextPath() + "/" + PLUGIN_NAME);
     }
 
+    @POST
+    public void doSaveHeartbeat(final StaplerRequest res, final StaplerResponse rsp) throws IOException {
+        rsp.sendRedirect(res.getContextPath() + "/" + PLUGIN_NAME);
+    }
+
     public HarnessBVAPluginImpl getConfiguration() {
         return HarnessBVAPluginImpl.getInstance();
+    }
+
+    public String getHeartbeatStatus() {
+        HarnessBVAPluginImpl  plugin = getConfiguration();
+        HeartbeatService hbService = new HeartbeatService(plugin.getExpandedPluginDir());
+        Long latestHeartbeat = hbService.readLatestHeartBeat();
+        if (latestHeartbeat == null) {
+            return "UNKNOWN";
+        }
+        Instant latest = Instant.ofEpochSecond(latestHeartbeat);
+        if (latest == null) {
+            return "UNKNOWN";
+        }
+        return latest.toString();
     }
 }

@@ -1,19 +1,14 @@
 package io.harness.plugins.harness_bva.plugins;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import hudson.Plugin;
-import hudson.model.AbstractDescribableImpl;
-
 import hudson.util.FormValidation;
 import io.harness.plugins.harness_bva.exceptions.EnvironmentVariableNotDefinedException;
 import io.harness.plugins.harness_bva.extensions.HarnessMgmtLink;
 import io.harness.plugins.harness_bva.internal.JobConfig;
-import io.harness.plugins.harness_bva.utils.DateUtils;
 import io.harness.plugins.harness_bva.utils.Utils;
 import jenkins.model.Jenkins;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
@@ -26,11 +21,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static io.harness.plugins.harness_bva.common.Common.REPORTS_DIR_NAME;
+import static io.harness.plugins.harness_bva.common.Common.DATA_DIR_NAME;
+
 
 public class HarnessBVAPluginImpl extends Plugin {
     private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-    private static final String DATA_DIR_NAME = "run-complete-data";
     public static final String PLUGIN_SHORT_NAME = "propelo-job-reporter";
 
     //region Data Members
@@ -39,24 +34,27 @@ public class HarnessBVAPluginImpl extends Plugin {
     private String buildJobConfigs = "";
     private String deploymentJobConfigs = "";
     private String rollbackJobConfigs = "";
-    private long heartbeatDuration = 60;
-    private long configUpdatedAt = System.currentTimeMillis();
     private List<JobConfig> buildConfigs = new ArrayList<>();
     private List<JobConfig> deploymentConfigs = new ArrayList<>();
     private List<JobConfig> rollbackConfigs = new ArrayList<>();
     //endregion
 
+    //region CSTOR
     //ToDo: This is deprecated! Fix soon.
     public HarnessBVAPluginImpl() {
     }
+    //endregion
 
+    //region Start
     @Override
     public void start() throws Exception {
         super.start();
         load();
         LOGGER.fine("'" + HarnessMgmtLink.PLUGIN_DISPLAY_NAME + "' plugin initialized.");
     }
+    //endregion
 
+    //region GetInstance
     public static HarnessBVAPluginImpl getInstance() {
         final Jenkins jenkins = Jenkins.getInstanceOrNull();
         if (jenkins != null) {
@@ -66,11 +64,14 @@ public class HarnessBVAPluginImpl extends Plugin {
             return null;
         }
     }
+    //endregion
 
+    //region HudsonHome
     public File getHudsonHome() {
         Jenkins jenkins = Jenkins.getInstanceOrNull();
         return (jenkins == null) ? null : jenkins.getRootDir();
     }
+    //endregion
 
     //region Getter & Setter
     public String getJenkinsInstanceName() {
@@ -90,6 +91,10 @@ public class HarnessBVAPluginImpl extends Plugin {
      */
     public String getPluginPath() {
         return pluginPath;
+    }
+
+    public void setPluginPath(String pluginPath) {
+        this.pluginPath = pluginPath;
     }
 
     public String getBuildJobConfigs() {
@@ -116,58 +121,6 @@ public class HarnessBVAPluginImpl extends Plugin {
         this.rollbackJobConfigs = rollbackJobConfigs;
     }
 
-    public void setPluginPath(String pluginPath) {
-        this.pluginPath = pluginPath;
-    }
-
-    /**
-     * @return the pluginPath path with possibly contained environment variables expanded.
-     */
-    public String getExpandedPluginPath() {
-        if (StringUtils.isBlank(pluginPath)) {
-            return pluginPath;
-        }
-        String expandedPath = "";
-        try {
-            expandedPath = Utils.expandEnvironmentVariables(pluginPath);
-        } catch (final EnvironmentVariableNotDefinedException evnde) {
-            LOGGER.log(Level.SEVERE, evnde.getMessage() + " Using unexpanded path.");
-            expandedPath = pluginPath;
-        }
-
-        return expandedPath;
-    }
-
-    public long getConfigUpdatedAt() {
-        return configUpdatedAt;
-    }
-
-    public void setConfigUpdatedAt(long configUpdatedAt) {
-        this.configUpdatedAt = configUpdatedAt;
-    }
-
-    public long getHeartbeatDuration() {
-        return heartbeatDuration;
-    }
-
-    public void setHeartbeatDuration(long heartbeatDuration) {
-        this.heartbeatDuration = heartbeatDuration;
-    }
-
-    public File getExpandedPluginDir() {
-        return new File(this.getExpandedPluginPath());
-    }
-
-    public boolean isExpandedPluginPathNullOrEmpty(){
-        return StringUtils.isEmpty(getExpandedPluginPath());
-    }
-
-    private File buildReportsDirectory(String pluginPath){
-        return new File(pluginPath,REPORTS_DIR_NAME);
-    }
-    public File getReportsDirectory() {
-        return buildReportsDirectory(this.getExpandedPluginPath());
-    }
     public List<JobConfig> getBuildConfigs() {
         return buildConfigs;
     }
@@ -191,10 +144,9 @@ public class HarnessBVAPluginImpl extends Plugin {
     public void setRollbackConfigs(List<JobConfig> rollbackConfigs) {
         this.rollbackConfigs = rollbackConfigs;
     }
-
     //endregion
 
-
+    //region ToString
     @Override
     public String toString() {
         return "HarnessBVAPluginImpl{" +
@@ -208,6 +160,7 @@ public class HarnessBVAPluginImpl extends Plugin {
                 ", rollbackConfigs='" + rollbackConfigs + '\'' +
                 '}';
     }
+    //endregion
 
     public String getPluginVersionString() {
         LOGGER.log(Level.FINEST, "getPluginVersionString starting");
@@ -217,35 +170,38 @@ public class HarnessBVAPluginImpl extends Plugin {
         return pluginVersionString;
     }
 
-    private File buildDataDirectory(String pluginPath) {
-        LOGGER.log(Level.FINEST, "buildDataDirectory starting");
-        File dataDirectory = new File(pluginPath, DATA_DIR_NAME);
-        LOGGER.log(Level.FINEST, "buildDataDirectory completed = {0}", dataDirectory);
-        return dataDirectory;
+
+
+    //region Dir Functions
+    /**
+     * @return the pluginPath path with possibly contained environment variables expanded.
+     */
+    public String getExpandedPluginPath() {
+        if (StringUtils.isBlank(pluginPath)) {
+            return pluginPath;
+        }
+        String expandedPath = "";
+        try {
+            expandedPath = Utils.expandEnvironmentVariables(pluginPath);
+        } catch (final EnvironmentVariableNotDefinedException evnde) {
+            LOGGER.log(Level.SEVERE, evnde.getMessage() + " Using unexpanded path.");
+            expandedPath = pluginPath;
+        }
+
+        return expandedPath;
+    }
+
+    public File getExpandedPluginDir() {
+        return new File(this.getExpandedPluginPath());
+    }
+
+    public boolean isExpandedPluginPathNullOrEmpty(){
+        return StringUtils.isEmpty(getExpandedPluginPath());
     }
     public File getDataDirectory() {
-        return buildDataDirectory(this.getExpandedPluginPath());
+        return new File(getExpandedPluginDir(), DATA_DIR_NAME);
     }
-
-    private File buildDataDirectoryWithVersion(String pluginPath) {
-        LOGGER.log(Level.FINEST, "buildDataDirectoryWithVersion starting");
-        String dataDirWithVersionName = DATA_DIR_NAME + "-" + getPluginVersionString();
-        LOGGER.log(Level.FINEST, "dataDirWithVersionName = {0}", dataDirWithVersionName);
-        File dataDirectoryWithVersion = new File(pluginPath, dataDirWithVersionName);
-        LOGGER.log(Level.FINEST, "buildDataDirectoryWithVersion completed = {0}", dataDirectoryWithVersion);
-        return dataDirectoryWithVersion;
-    }
-    public File getDataDirectoryWithVersion() {
-        return buildDataDirectoryWithVersion(this.getExpandedPluginPath());
-    }
-
-    public File getDataDirectoryWithRotation() {
-        File dataDirWithVersion = buildDataDirectoryWithVersion(this.getExpandedPluginPath());
-        LOGGER.log(Level.FINEST, "dataDirWithVersion = {0}", dataDirWithVersion);
-        File dataDirWithRotation = new File(dataDirWithVersion, DateUtils.getDateFormattedDirName());
-        LOGGER.log(Level.FINEST, "dataDirWithRotation = {0}", dataDirWithRotation);
-        return dataDirWithRotation;
-    }
+    //endregion
 
     //region Checks
     public FormValidation doCheckJenkinsInstanceName(final StaplerRequest res, final StaplerResponse rsp,
@@ -286,16 +242,10 @@ public class HarnessBVAPluginImpl extends Plugin {
                 return FormValidation.warning(expandedPathMessage
                         + "Path contains leading and/or trailing whitespaces - is this intentional?");
             }
-            File reportsDirectory = buildReportsDirectory(expandedPath);
-            if(!reportsDirectory.exists()) {
-                if(!reportsDirectory.mkdirs()){
-                    return FormValidation.error(reportsDirectory + " The Reports directory could not be created. Please check path and write permissions.");
-                }
-            }
-            File dataDirectoryWithVersion = buildDataDirectoryWithVersion(expandedPath);
-            if(!dataDirectoryWithVersion.exists()) {
-                if(!dataDirectoryWithVersion.mkdirs()){
-                    return FormValidation.error(dataDirectoryWithVersion + " The data directory with version could not be created. Please check path and write permissions.");
+            File dataDirectory = getDataDirectory();
+            if(!dataDirectory.exists()) {
+                if(!dataDirectory.mkdirs()){
+                    return FormValidation.error(dataDirectory + " The data directory could not be created. Please check path and write permissions.");
                 }
             }
         }
@@ -328,84 +278,4 @@ public class HarnessBVAPluginImpl extends Plugin {
         return checkJobConfigs(rollbackJobConfigs);
     }
     //endregion
-
-    public static class JobConfigDAO extends AbstractDescribableImpl<JobConfigDAO> {
-        @JsonProperty("jobName")
-        public String jobName;
-        @JsonProperty("filterParams")
-        public FilterParams filterParams;
-
-        public JobConfigDAO() {
-        }
-
-        @DataBoundConstructor
-        public JobConfigDAO(String jobName, FilterParams FilterParams) {
-            this.jobName = jobName;
-            this.filterParams = FilterParams;
-        }
-
-        public String getJobName() {
-            return jobName;
-        }
-
-        public void setJobName(String jobName) {
-            this.jobName = jobName;
-        }
-
-        public HarnessBVAPluginImpl.FilterParams getFilterParams() {
-            return filterParams;
-        }
-
-        public void setFilterParams(HarnessBVAPluginImpl.FilterParams filterParams) {
-            this.filterParams = filterParams;
-        }
-
-        @Override
-        public String toString() {
-            return "JobConfigDAO{" +
-                    "jobName='" + jobName + '\'' +
-                    ", filterParams='" + String.valueOf(filterParams) + '\'' +
-                    '}';
-        }
-    }
-
-    public static class FilterParams extends AbstractDescribableImpl<FilterParams> {
-        @JsonProperty("paramName")
-        public String paramName;
-        @JsonProperty("paramValue")
-        public String paramValue;
-
-        public FilterParams() {
-        }
-
-        @DataBoundConstructor
-        public FilterParams(String paramName, String paramValue) {
-            this.paramName = paramName;
-            this.paramValue = paramValue;
-        }
-
-        public String getParamName() {
-            return paramName;
-        }
-
-        public void setParamName(String paramName) {
-            this.paramName = paramName;
-        }
-
-        public String getParamValue() {
-            return paramValue;
-        }
-
-        public void setParamValue(String paramValue) {
-            this.paramValue = paramValue;
-        }
-
-        @Override
-        public String toString() {
-            return "JobConfigDAO{" +
-                    "paramName='" + paramName + '\'' +
-                    ", paramValue='" + paramValue + '\'' +
-                    '}';
-        }
-    }
 }

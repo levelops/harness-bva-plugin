@@ -40,10 +40,10 @@
                     </button>
                 </a>
 
-                <a href="restoreOptions" style="text-decoration: none;">
+                <a href="heartbeat" style="text-decoration: none;">
                     <button class="jenkins-button" tooltip="${%restore_options_tooltip}">
                         <l:icon src="symbol-pulse-outline plugin-ionicons-api" class="icon-xlg"/>
-                        ${%restore}
+                        ${%status}
                     </button>
                 </a>
 

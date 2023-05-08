@@ -3,6 +3,8 @@ package io.harness.plugins.harness_bva.extensions;
 import hudson.Extension;
 import hudson.model.Run;
 import hudson.model.listeners.RunListener;
+import io.harness.plugins.harness_bva.plugins.HarnessBVAPluginImpl;
+import io.harness.plugins.harness_bva.services.JobRunProcessorService;
 
 import java.lang.invoke.MethodHandles;
 import java.util.logging.Logger;
@@ -13,7 +15,9 @@ public class JobRunListener extends RunListener<Run> {
 
     @Override
     public void onFinalized(Run run) {
+        HarnessBVAPluginImpl plugin = HarnessBVAPluginImpl.getInstance();
 
+        JobRunProcessorService jobRunProcessorService = new JobRunProcessorService();
+        jobRunProcessorService.processJobRun(run, plugin.getHudsonHome(), plugin);
     }
-
 }
