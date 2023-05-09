@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,4 +130,26 @@ public class JobRunDetailLite {
         String csvString = sb.toString();
         return csvString;
     }
+
+    public static JobRunDetailLite fromCSVString (final String input) {
+        if (StringUtils.isBlank(input)) {
+            return null;
+        }
+        String[] parts = input.split(",");
+        if((parts == null) || (parts.length == 10)) {
+            return null;
+        }
+        return new JobRunDetailLite(parts[1],
+                parts[2],
+                parts[3],
+                Collections.emptyMap(),
+                Long.parseLong(parts[4]),
+                parts[5],
+                Long.parseLong(parts[6]),
+                parts[7],
+                Long.parseLong(parts[8]),
+                parts[9]
+        );
+    }
+
 }

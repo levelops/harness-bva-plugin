@@ -7,9 +7,15 @@ import io.harness.plugins.harness_bva.utils.DateUtils;
 import io.harness.plugins.harness_bva.utils.FileUtils;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,5 +50,54 @@ public class JobRunStorageService {
             return false;
         }
         return true;
+    }
+
+    private List<File> getAllFilesWithPrefix(JobType jobType) {
+        File dataDir = new File(expandedPluginDir, DATA_DIR_NAME);
+        File[] allFilesWithPrefix = dataDir.listFiles(new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.startsWith(jobType.getFilePrefix());
+            }
+        });
+        if (allFilesWithPrefix == null) {
+            Collections.emptyList();
+        }
+        return Arrays.asList(allFilesWithPrefix);
+    }
+
+    public List<File> listFilesOlderThan(JobType jobType, Instant now, int olderThanDays) {
+        Long olderThanThreshold = DateUtils.toStartOfDay(now.minus(olderThanDays - 1, ChronoUnit.DAYS)).getEpochSecond();
+
+        List<File> files = new ArrayList<>();
+        List<File> allFilesWithPrefix = getAllFilesWithPrefix(jobType);
+        for (File f: allFilesWithPrefix) {
+            String fileName = f.getName();
+            Long timestamp = FileNameExtractor.extractTimestamp(fileName);
+            if (timestamp == null) {
+                continue;
+            }
+            if (timestamp < olderThanThreshold) {
+                files.add(f);
+            }
+        }
+        return files;
+    }
+
+    public List<File> listFilesNewerThan(JobType jobType, Instant now, int lessThanOrEqualToDays) {
+        Long lessThanOrEqualToThreshold = DateUtils.toStartOfDay(now.minus(lessThanOrEqualToDays - 1, ChronoUnit.DAYS)).getEpochSecond();
+
+        List<File> files = new ArrayList<>();
+        List<File> allFilesWithPrefix = getAllFilesWithPrefix(jobType);
+        for (File f: allFilesWithPrefix) {
+            String fileName = f.getName();
+            Long timestamp = FileNameExtractor.extractTimestamp(fileName);
+            if (timestamp == null) {
+                continue;
+            }
+            if (timestamp >= lessThanOrEqualToThreshold) {
+                files.add(f);
+            }
+        }
+        return files;
     }
 }

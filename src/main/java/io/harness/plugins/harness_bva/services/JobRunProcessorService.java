@@ -2,11 +2,19 @@ package io.harness.plugins.harness_bva.services;
 
 import hudson.model.Run;
 import io.harness.plugins.harness_bva.models.JobRunDetail;
+import io.harness.plugins.harness_bva.models.JobRunDetailLite;
+import io.harness.plugins.harness_bva.models.JobType;
+import io.harness.plugins.harness_bva.models.Report;
 import io.harness.plugins.harness_bva.plugins.HarnessBVAPluginImpl;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.time.Instant;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,5 +42,33 @@ public class JobRunProcessorService {
         JobRunPersistanceService jobRunPersistanceService = new JobRunPersistanceService();
         jobRunPersistanceService.persistJobRun(jobRunDetail,plugin, now);
         LOGGER.info("JobRunPersistanceService Completed");
+    }
+
+
+    private void generateReportForJobTye(File expandedPluginDir, JobType jobType, Instant now, ReportProcessor reportProcessor) {
+        JobRunStorageService jobRunStorageService = new JobRunStorageService(expandedPluginDir);
+        List<File> files = jobRunStorageService.listFilesNewerThan(jobType, now, 7);
+        for (File f : files) {
+            try {
+                try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        // process the line.
+                        JobRunDetailLite jobRunDetailLite = JobRunDetailLite.fromCSVString(line);
+                        reportProcessor.append(jobType, jobRunDetailLite);
+                    }
+                }
+            } catch (IOException e) {
+                //log
+            }
+        }
+    }
+    public Report generateReport(File expandedPluginDir, Instant now) {
+        ReportProcessor reportProcessor = new ReportProcessor();
+        for (JobType j : JobType.values()) {
+            generateReportForJobTye(expandedPluginDir, j, now, reportProcessor);
+        }
+        Report report = reportProcessor.build();
+        return report;
     }
 }
