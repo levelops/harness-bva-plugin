@@ -48,13 +48,17 @@ public class JobRunProcessorService {
     private void generateReportForJobTye(File expandedPluginDir, JobType jobType, Instant now, ReportProcessor reportProcessor) {
         JobRunStorageService jobRunStorageService = new JobRunStorageService(expandedPluginDir);
         List<File> files = jobRunStorageService.listFilesNewerThan(jobType, now, 7);
+        LOGGER.log(Level.INFO, "Listing Files jobType={0}, files = {1}", new Object[]{jobType.getFilePrefix(), files});
         for (File f : files) {
+            LOGGER.log(Level.INFO, "Processing File jobType={0}, file = {1}", new Object[]{jobType.getFilePrefix(), f.toString()});
             try {
                 try (BufferedReader br = new BufferedReader(new FileReader(f))) {
                     String line;
                     while ((line = br.readLine()) != null) {
                         // process the line.
+                        LOGGER.log(Level.INFO, "Processing Line jobType={0}, file = {1}, line = {2}", new Object[]{jobType.getFilePrefix(), f.toString(), line});
                         JobRunDetailLite jobRunDetailLite = JobRunDetailLite.fromCSVString(line);
+                        LOGGER.log(Level.INFO, "Processing Obj jobType={0}, file = {1}, obj = {2}", new Object[]{jobType.getFilePrefix(), f.toString(), jobRunDetailLite});
                         reportProcessor.append(jobType, jobRunDetailLite);
                     }
                 }

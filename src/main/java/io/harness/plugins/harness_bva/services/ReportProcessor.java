@@ -15,6 +15,9 @@ public class ReportProcessor {
     long buildTimeTotal = 0;
     int buildsCount = 0;
 
+    int manualTriggerBuildsCount = 0;
+    int automatedTriggerBuildsCount = 0;
+
     public void append(JobType jobType, JobRunDetailLite jobRunDetailLite) {
         if (jobRunDetailLite == null) {
             return;
@@ -37,6 +40,11 @@ public class ReportProcessor {
                 buildTimeTotal += jobRunDetailLite.getDuration();
                 buildsCount++;
             }
+            if ("MANUAL".equals(jobRunDetailLite.getTriggerType())) {
+                manualTriggerBuildsCount++;
+            } else {
+                automatedTriggerBuildsCount++;
+            }
         } else if (jobType == JobType.DEPLOYMENT) {
             deploymentJobRunsCount ++;
         } else if (jobType == JobType.ROLLBACK) {
@@ -46,6 +54,6 @@ public class ReportProcessor {
     public Report build() {
         Double buildSuccessRate = (buildSuccessfulJobRunsCount) / (double) (buildSuccessfulJobRunsCount + buildFailedJobRunsCount);
         Double averageBuildTime = (buildTimeTotal) / (double) buildsCount;
-        return new Report(deploymentJobRunsCount, rollbackJobRunsCount, buildSuccessRate, averageBuildTime);
+        return new Report(deploymentJobRunsCount, rollbackJobRunsCount, buildSuccessRate, averageBuildTime, manualTriggerBuildsCount, automatedTriggerBuildsCount);
     }
 }

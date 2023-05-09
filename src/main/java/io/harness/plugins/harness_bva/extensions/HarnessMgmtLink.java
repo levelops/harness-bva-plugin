@@ -144,13 +144,10 @@ public class HarnessMgmtLink extends ManagementLink {
         rsp.sendRedirect(res.getContextPath() + "/" + PLUGIN_NAME);
     }
 
-    public void doDownloadReport(final StaplerRequest res, final StaplerResponse rsp) throws IOException {
+    public void doDownloadJobsReport(final StaplerRequest res, final StaplerResponse rsp) throws IOException {
         LOGGER.finest("Starting download report.");
 
-
         final HarnessBVAPluginImpl plugin = HarnessBVAPluginImpl.getInstance();
-
-        
 
         File reportsDirectory = new File(plugin.getExpandedPluginPath(), "reports");
         FileUtils.createDirectoryRecursively(reportsDirectory);

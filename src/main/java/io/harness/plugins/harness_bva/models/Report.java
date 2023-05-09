@@ -1,6 +1,6 @@
 package io.harness.plugins.harness_bva.models;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Report {
     @JsonProperty("deploymentFrequency")
@@ -12,11 +12,19 @@ public class Report {
     @JsonProperty("averageBuildTime")
     private Double averageBuildTime;
 
-    public Report(Integer deploymentFrequency, Integer rollbackFrequency, Double buildSuccessRate, Double averageBuildTime) {
+    @JsonProperty("manualTriggerBuilds")
+    private Integer manualTriggerBuilds;
+
+    @JsonProperty("automatedTriggerBuilds")
+    private Integer automatedTriggerBuilds;
+
+    public Report(Integer deploymentFrequency, Integer rollbackFrequency, Double buildSuccessRate, Double averageBuildTime, Integer manualTriggerBuilds, Integer automatedTriggerBuilds) {
         this.deploymentFrequency = deploymentFrequency;
         this.rollbackFrequency = rollbackFrequency;
         this.buildSuccessRate = buildSuccessRate;
         this.averageBuildTime = averageBuildTime;
+        this.manualTriggerBuilds = manualTriggerBuilds;
+        this.automatedTriggerBuilds = automatedTriggerBuilds;
     }
 
     @Override
@@ -26,6 +34,8 @@ public class Report {
                 ", rollbackFrequency=" + rollbackFrequency +
                 ", buildSuccessRate=" + buildSuccessRate +
                 ", averageBuildTime=" + averageBuildTime +
+                ", manualTriggerBuilds=" + manualTriggerBuilds +
+                ", automatedTriggerBuilds=" + automatedTriggerBuilds +
                 '}';
     }
 }

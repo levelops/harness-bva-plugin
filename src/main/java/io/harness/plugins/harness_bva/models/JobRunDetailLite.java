@@ -136,7 +136,7 @@ public class JobRunDetailLite {
             return null;
         }
         String[] parts = input.split(",");
-        if((parts == null) || (parts.length == 10)) {
+        if((parts == null) || (parts.length != 10)) {
             return null;
         }
         return new JobRunDetailLite(parts[1],

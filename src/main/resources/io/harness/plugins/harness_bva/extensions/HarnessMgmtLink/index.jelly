@@ -26,14 +26,14 @@
             </h1>
 
             <div class="jenkins-buttons-row jenkins-!-padding-3">
-                <a href="downloadReport" style="text-decoration: none;">
+                <a download="Harness_BVA_Jobs_Report.json" href="downloadJobsReport" style="text-decoration: none;">
                     <button class="jenkins-button" tooltip="${%backup_manual_tooltip}">
                         <l:icon src="symbol-document-text-outline plugin-ionicons-api" class="icon-xlg"/>
                         ${%download_report}
                     </button>
                 </a>
 
-                <a href="restoreOptions" style="text-decoration: none;">
+                <a download="Harness_BVA_Security_Report.json" href="restoreOptions" style="text-decoration: none;">
                     <button class="jenkins-button" tooltip="${%restore_options_tooltip}">
                         <l:icon src="symbol-stats-chart-outline plugin-ionicons-api" class="icon-xlg"/>
                         ${%restore}
