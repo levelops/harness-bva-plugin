@@ -6,21 +6,33 @@ import hudson.model.Hudson;
 import hudson.model.ManagementLink;
 import io.harness.plugins.harness_bva.internal.Sites;
 import io.harness.plugins.harness_bva.internal.JobConfig;
+import io.harness.plugins.harness_bva.models.Report;
 import io.harness.plugins.harness_bva.plugins.HarnessBVAPluginImpl;
 import io.harness.plugins.harness_bva.services.HeartbeatService;
+import io.harness.plugins.harness_bva.services.JobRunProcessorService;
+import io.harness.plugins.harness_bva.utils.FileUtils;
+import io.harness.plugins.harness_bva.utils.JsonUtils;
+import jenkins.model.Jenkins;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 import org.kohsuke.stapler.verb.POST;
 
 import javax.annotation.Nullable;
+import javax.servlet.ServletException;
+import java.io.File;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.nio.file.Files;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static io.harness.plugins.harness_bva.common.Common.HARNESS_BVA_JOBS_REPORT_FILE_NAME;
+import static io.harness.plugins.harness_bva.common.Common.LEVELOPS_JENKINS_HTML_REPORT_FILE_NAME;
+import static io.harness.plugins.harness_bva.common.Common.UTF_8;
 
 @Extension
 public class HarnessMgmtLink extends ManagementLink {
@@ -130,6 +142,33 @@ public class HarnessMgmtLink extends ManagementLink {
     @POST
     public void doSaveHeartbeat(final StaplerRequest res, final StaplerResponse rsp) throws IOException {
         rsp.sendRedirect(res.getContextPath() + "/" + PLUGIN_NAME);
+    }
+
+    public void doDownloadReport(final StaplerRequest res, final StaplerResponse rsp) throws IOException {
+        LOGGER.finest("Starting download report.");
+
+
+        final HarnessBVAPluginImpl plugin = HarnessBVAPluginImpl.getInstance();
+
+        
+
+        File reportsDirectory = new File(plugin.getExpandedPluginPath(), "reports");
+        FileUtils.createDirectoryRecursively(reportsDirectory);
+
+        File reportsPath = new File(reportsDirectory, HARNESS_BVA_JOBS_REPORT_FILE_NAME);
+        LOGGER.finest("reportsPath = " + reportsPath.toString());
+
+        JobRunProcessorService jobRunProcessorService = new JobRunProcessorService();
+        Report report = jobRunProcessorService.generateReport(plugin.getExpandedPluginDir(), Instant.now());
+        String reportString = JsonUtils.get().writeValueAsString(report);
+        Files.write(reportsPath.toPath(), reportString.getBytes(UTF_8));
+
+        try {
+            rsp.serveFile(res, reportsPath.toURL());
+            return;
+        } catch (ServletException e) {
+            LOGGER.log(Level.WARNING,"ServletException trying to download the report!!", e );
+        }
     }
 
     public HarnessBVAPluginImpl getConfiguration() {

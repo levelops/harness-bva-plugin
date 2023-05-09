@@ -10,6 +10,7 @@ public class Common {
 
     public static final Charset UTF_8 = Charset.forName("UTF-8");
 
+    public static final String HARNESS_BVA_JOBS_REPORT_FILE_NAME = "Harness_BVA_Jobs_Report.json";
     public static final String LEVELOPS_JENKINS_HTML_REPORT_FILE_NAME = "LevelOps_Jenkins_Security_Report.hml";
     public static final String LEVELOPS_JENKINS_HTML_REPORT_FILE_NAME_TEMP = "LevelOps_Jenkins_Security_Report.hml.tmp";
     public static final String DATA_DIR_NAME = "data";

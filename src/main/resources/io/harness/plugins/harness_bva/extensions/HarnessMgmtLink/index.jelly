@@ -26,10 +26,10 @@
             </h1>
 
             <div class="jenkins-buttons-row jenkins-!-padding-3">
-                <a href="backupManual" style="text-decoration: none;">
+                <a href="downloadReport" style="text-decoration: none;">
                     <button class="jenkins-button" tooltip="${%backup_manual_tooltip}">
                         <l:icon src="symbol-document-text-outline plugin-ionicons-api" class="icon-xlg"/>
-                        ${%backup_now}
+                        ${%download_report}
                     </button>
                 </a>
 
