@@ -1,0 +1,4 @@
+{
+  "response_type": "RunbookRunsStatusCheckResponse",
+  "payload": "[{\"run_id\":\"04659eed-9fd7-432e-b1da-42804713c190\",\"state\":\"running\"},{\"run_id\":\"4b8f7d66-2aee-47b6-b2e8-8efeabe2870e\",\"state\":\"success\",\"output\":{\"stop_build\":{\"key\":\"stop_build\",\"value_type\":\"string\",\"value\":\"true\"}}}]"
+}

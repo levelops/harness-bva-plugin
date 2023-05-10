@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: viraj
+Build-Jdk: 1.8.0_231
+Extension-Name: levelops
+Specification-Title: Upload scan artifacts to LevelOps API
+Implementation-Title: levelops
+Implementation-Version: 1.0.0-SNAPSHOT
+Plugin-Class: io.levelops.plugins.levelops_jenkins.plugins.LevelOpsPluginImpl
+Group-Id: org.jenkins-ci.plugins
+Short-Name: levelops
+Long-Name: LevelOps Plugin
+Url: https://app.levelops.io
+Plugin-Version: 1.0.0-SNAPSHOT (private-dbc9ba53-viraj)
+Hudson-Version: 1.625.3
+Jenkins-Version: 1.625.3
+Plugin-Developers: 
+

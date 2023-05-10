@@ -1,0 +1,41 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<flow-definition plugin="workflow-job@2.36">
+  <actions/>
+  <description>Pipe1.1&#13;
+&#13;
+</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.plugins.jira.JiraProjectProperty plugin="jira@3.0.11"/>
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.29.5">
+      <projectUrl>https://github.com/AnamikaN/WarpService/</projectUrl>
+      <displayName/>
+    </com.coravy.hudson.plugins.github.GithubProjectProperty>
+    
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers>
+        <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.29.5">
+          <spec/>
+        </com.cloudbees.jenkins.GitHubPushTrigger>
+      </triggers>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.78">
+    <script>export VERSION=${MAJOR_VERSION}${BUILD_NUMBER}${VERSION_SUFFIX}
+export JAVA_HOME=/usr/lib/jvm/java-13-openjdk-amd64
+echo "
+nexusUser=gradle
+nexusPassword=$NEXUS_PWD
+org.gradle.parallel=false
+org.gradle.jvmargs="-Xms2G -Xmx3G --enable-preview"
+" &gt;&gt; gradle.properties
+./gradlew --version
+./gradlew clean build 
+./gradlew publish
+
+</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>

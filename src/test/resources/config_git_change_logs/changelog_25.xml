@@ -1,0 +1,140 @@
+commit 4a4353c6d9d471826328b298fe3042c28bbe318d
+tree e7d51ecfc5fc91ffb89c33df065ddaa63c5360dd
+parent 92ed815527b401d4f2240fdcffc4bff28776333a
+author Harsh Jariwala <harshjariwala@harshswkbookpro.lan> 2020-06-21 00:32:17 -0700
+committer Harsh Jariwala <harshjariwala@harshswkbookpro.lan> 2020-06-21 00:32:17 -0700
+
+    changed to get PR whenever they are updated instead of only when created
+
+
+:100644 100644 ce679fadb1fa09dc9b3e28c91a131a3c2f82ed48 71dc72faa0e7a362e28eba4d93a7d9770ff03be0 M	integrations/integration-github/src/main/java/io/levelops/integrations/github/services/GithubPullRequestService.java
+commit cc6dfc65066fd69fb065b62b734cc7c960a46e75
+tree 9941c45c6e058a8bdf1b6cbea8f230d9ffe2d48c
+parent 3a2eeee9bf5ba2938e7aa9c861eb0611bb4056eb
+author Maxime Bellier <maxime@levelops.io> 2020-06-19 21:38:12 -0700
+committer Maxime Bellier <maxime@levelops.io> 2020-06-19 21:38:12 -0700
+
+    Removed test stuff messing up with the dependencies
+
+
+:100644 100644 c3262a7be45df1ee6ff4364a604c4479244a011d 9855465e18b481370a30390b5c75c7f32da3339c M	integrations/integration-k8s/build.gradle
+commit cf64153e237ee3a34ce91989accfdafb2323e7a6
+tree a49486767fbf5a42972f4b825b2f84d2c1d52c41
+parent 2bccb66e8a51051ffceffdd8557fba2cb461e82f
+author Ivan Leon <ivan@levelops.io> 2020-06-19 21:07:24 -0700
+committer Ivan Leon <ivan@levelops.io> 2020-06-19 21:07:24 -0700
+
+    Upgrade versions
+
+
+:100644 100644 250ae9869bcf071d1865cc57b7ef8ba38bb7eda3 19099f8922cea4e9e6f417160d337008b7a57dc3 M	agents/default-agent/build.gradle
+:100644 100644 a71c39f1aebce4ed9073e38434f01dee2a99bc67 4aff3c37cd799933577dc55919e34bbeb7fd702b M	agents/sample-agent/build.gradle
+:100644 100644 4d47632e7fa3788e0b2558b3b2888c2f81a61d70 ee4b4779b590e7a582b53dd422836c2beb4fce66 M	agents/satellite-agent/build.gradle
+:100644 100644 e769d9316ebe68e049bdb653de48a39fb50277f8 5832fd55b53b601bb1601df71190af9e5f10dd67 M	build.gradle
+:100644 100644 506e40782f956bf1df0b47bd81da38978692723f 6d7e4da4133fc337b297a05b9c598bca9101424b M	control-plane/build.gradle
+commit 3a2eeee9bf5ba2938e7aa9c861eb0611bb4056eb
+tree 7f99b324c58640ad6652da1a860e062c639545d7
+parent 7784fb34ea6affc6e392f48739353026e76b26cf
+author Maxime Bellier <maxime@levelops.io> 2020-06-19 14:14:13 -0700
+committer Maxime Bellier <maxime@levelops.io> 2020-06-19 14:14:13 -0700
+
+    LEV-1241 Added K8s integration with Exec controller
+
+
+:100644 100644 fc272bddceb3f095525e89281ddc153b5572f67a 36be31dd84d52ba073279da6050786fe5bff75df M	agents/agents-common/build.gradle
+:100644 100644 f19ee27b5d0e83a63063fa05c11530f447972372 6bc6367dc4a599d34c99718c03914f9a0c87af8e M	agents/agents-common/src/main/java/io/levelops/ingestion/agent/ingestion/CustomRestCallController.java
+:000000 100644 0000000000000000000000000000000000000000 f72f3f55743f9a7e712aaea2dd7f3bf717c92bd9 A	agents/agents-common/src/main/java/io/levelops/ingestion/agent/ingestion/K8sExecController.java
+:100644 100644 11cdc9da0ade2ff7aa32bd0d59e163f8dda16728 4d47632e7fa3788e0b2558b3b2888c2f81a61d70 M	agents/satellite-agent/build.gradle
+:000000 100644 0000000000000000000000000000000000000000 8c843148deebd4053a1fc4561474ef8238a9db8e A	agents/satellite-agent/src/main/java/io/levelops/ingestion/agent/config/integrations/K8sConfig.java
+:000000 100644 0000000000000000000000000000000000000000 a749d21330da2f9715fbbcfceb44b1ad74d9bda1 A	agents/satellite-agent/src/main/java/io/levelops/ingestion/agent/config/integrations/package-info.java
+:100644 100644 e1d85748cadef4c53d59489417cc5faae3fb3426 e769d9316ebe68e049bdb653de48a39fb50277f8 M	build.gradle
+:000000 100644 0000000000000000000000000000000000000000 c3262a7be45df1ee6ff4364a604c4479244a011d A	integrations/integration-k8s/build.gradle
+:000000 100644 0000000000000000000000000000000000000000 b94e1a2d5958cb60c306cb2d0d17b32190d4d5ad A	integrations/integration-k8s/src/main/java/io/levelops/integrations/k8s/client/K8sClient.java
+:000000 100644 0000000000000000000000000000000000000000 a133310795b442a9749ead11f89ba13cfb0aa0a9 A	integrations/integration-k8s/src/test/java/io/levelops/integrations/k8s/client/K8sClientIntegrationTest.java
+:100644 100644 ea1da878f3d2fcaebf83784a065b6f2fd47feb6a 0a87a02817a4d6291543ab6a928a5c4d83b255d6 M	settings.gradle
+commit 600b571966defafb1d124db2b4d85cae22a20f10
+tree 856ec070b64b57c22bfeaa592eb34c1029cc5c05
+parent 52e295e34a16c119c403a0130fa0093fc31f5371
+author ctlo2020 <srinath.chandrashekhar@levelops.io> 2020-06-18 16:49:51 +0530
+committer ctlo2020 <srinath.chandrashekhar@levelops.io> 2020-06-18 16:49:51 +0530
+
+    added metadata for splunk client to check if the integration is for splunk cloud or enterprise version and another flag to check if the server certificate needs to be ignroed
+
+
+:100644 100644 6a813f673fe1abb3496c5d75bf256eb9ba2b1078 260c02633d7a713c5d36a238005127b7e0fd2f02 M	integrations/integration-splunk/src/main/java/io/levelops/integrations/splunk/client/SplunkClient.java
+:100644 100644 c7b93e929043d3d0950672fb95c607f6ab57ce6d 16d1321815eef84fa914e119feb5f3e0ca7d052d M	integrations/integration-splunk/src/main/java/io/levelops/integrations/splunk/client/SplunkClientFactory.java
+commit 52e295e34a16c119c403a0130fa0093fc31f5371
+tree 29acffdc36ff012f2d4d3f61085e5e4870f221c3
+parent 81b426e034d67ead6db7689e694b450baf14a114
+author ctlo2020 <srinath.chandrashekhar@levelops.io> 2020-06-17 10:34:08 +0530
+committer ctlo2020 <srinath.chandrashekhar@levelops.io> 2020-06-17 10:34:08 +0530
+
+    upgraded commons dependency version to integrate the changes with splunk components
+
+
+:100644 100644 dd3e4b8287788eb2248b64e20d63716f6820e8cd e1d85748cadef4c53d59489417cc5faae3fb3426 M	build.gradle
+commit 81b426e034d67ead6db7689e694b450baf14a114
+tree 04dc2cf0c54d2aa862205a9cf37daba85f5490ac
+parent a1b8bf0869bfe9cc83a664dd81b11f727a887ca7
+author ctlo2020 <62128945+ctlo2020@users.noreply.github.com> 2020-06-17 08:22:07 +0530
+committer GitHub <noreply@github.com> 2020-06-17 08:22:07 +0530
+
+    fixed SplunkClient to put form data parameters to create splunk search (#172)
+    
+
+
+:100644 100644 de907917a6c9b5ed25f36695b204d67864549805 dd3e4b8287788eb2248b64e20d63716f6820e8cd M	build.gradle
+:100644 100644 c6acd1855fcab24a7c84703eaaec6a49aded436e 6a813f673fe1abb3496c5d75bf256eb9ba2b1078 M	integrations/integration-splunk/src/main/java/io/levelops/integrations/splunk/client/SplunkClient.java
+:100644 100644 eccb6878d3cd0ce2d994739c9cd7d4b99bc6f2dd c7b93e929043d3d0950672fb95c607f6ab57ce6d M	integrations/integration-splunk/src/main/java/io/levelops/integrations/splunk/client/SplunkClientFactory.java
+commit 2d44ef083cf86190ef0597d705edbf02e9635bc0
+tree 2de625b01e12c94b8a0884d08c531c75513c3fdf
+parent 03ff322792bfb3df225ed27fb0027de3a41ce562
+author Maxime Bellier <maxime@levelops.io> 2020-06-15 13:50:11 -0700
+committer Maxime Bellier <maxime@levelops.io> 2020-06-15 13:50:11 -0700
+
+    LEV-1205 Github: added PR commits
+
+
+:100644 100644 bc18b5d1dbb4875b636896d948f72571171baba0 de907917a6c9b5ed25f36695b204d67864549805 M	build.gradle
+:100644 100644 c00d593635395a207395cbf8e82d94f6e8fa0066 ce679fadb1fa09dc9b3e28c91a131a3c2f82ed48 M	integrations/integration-github/src/main/java/io/levelops/integrations/github/services/GithubPullRequestService.java
+commit a7c7ecbdc554fa6cf083d604582743b152180208
+tree 7ecee7ccf2e8e4ba9e6039f3d834b573dc3fab76
+parent e667282899c3e3913f707277699de633f738e957
+author Maxime Bellier <maxime@levelops.io> 2020-06-14 17:16:05 -0700
+committer Maxime Bellier <maxime@levelops.io> 2020-06-14 17:16:05 -0700
+
+    LEV-1199 Prevent race condition when auto-clearing acknowledged jobs
+
+
+:100644 100644 1b2cd24f5830fdba8637c80dbf394b703a4bc11c 3d87636c2c14fd1c12b4809a52a03c15d782ef6a M	ingestion-agent/src/main/java/io/levelops/ingestion/agent/control/AgentControlService.java
+commit e667282899c3e3913f707277699de633f738e957
+tree c655656ba1fd2964b55dadcb999a9c69c5a12eb6
+parent 7856900458ea5d5cde55d8bc5a8266470d6a2517
+author Ivan Leon <ivan@levelops.io> 2020-06-11 11:55:03 -0700
+committer ivan-levelops <56241820+ivan-levelops@users.noreply.github.com> 2020-06-11 11:55:56 -0700
+
+    Upgrade gradle to 6.5
+
+
+:100644 100644 84226702066b81b87877ca16900d4d07ff1db410 186b71557c5013ddd86ab424fe974dc9240bed30 M	gradle/wrapper/gradle-wrapper.properties
+commit 7856900458ea5d5cde55d8bc5a8266470d6a2517
+tree e1bf096e8b652244ef19335e9b7b83b065b411b7
+parent e57c62527ea8e28cadc23c38e9cfb69820b9e8d5
+author Ivan Leon <ivan@levelops.io> 2020-06-11 11:53:30 -0700
+committer ivan-levelops <56241820+ivan-levelops@users.noreply.github.com> 2020-06-11 11:55:56 -0700
+
+    Strick ssl mode
+
+
+:100644 100644 37840f448ce84af8c5a8daebfa1d8f4d56e75952 bc18b5d1dbb4875b636896d948f72571171baba0 M	build.gradle
+:100644 100644 1c9db6528191f2110e1e7df327be0e9664aad0cb 8c9ad994e3fbdc37c8143507c63b2a9698920851 M	control-plane/src/main/java/io/levelops/controlplane/config/DatabaseConfig.java
+commit e57c62527ea8e28cadc23c38e9cfb69820b9e8d5
+tree 7c47d6dd7ea634ee621e2a4668a219e7f785e70c
+parent 2c6ac6107c7ece058318f99e9fe0bd973e030559
+author Jenkins <jenkins@jenkins.dev.levelops.io> 2020-06-10 22:43:57 -0700
+committer Jenkins <jenkins@jenkins.dev.levelops.io> 2020-06-10 22:43:57 -0700
+
+    [AUTO] Updated commons to version 'v0.1.1158'
+
+
+:100644 100644 8eec0226e69b16a282bb16b643d5cefebc617acc 37840f448ce84af8c5a8daebfa1d8f4d56e75952 M	build.gradle

@@ -1,6 +1,5 @@
 package io.harness.plugins.harness_bva.extensions;
 
-import com.google.common.base.Predicate;
 import hudson.Extension;
 import hudson.model.Hudson;
 import hudson.model.ManagementLink;
@@ -9,16 +8,19 @@ import io.harness.plugins.harness_bva.internal.JobConfig;
 import io.harness.plugins.harness_bva.models.Report;
 import io.harness.plugins.harness_bva.plugins.HarnessBVAPluginImpl;
 import io.harness.plugins.harness_bva.services.HeartbeatService;
+import io.harness.plugins.harness_bva.services.HudsonMonitoring;
+import io.harness.plugins.harness_bva.services.JenkinsConfigService;
+import io.harness.plugins.harness_bva.services.JenkinsPluginService;
 import io.harness.plugins.harness_bva.services.JobRunProcessorService;
 import io.harness.plugins.harness_bva.utils.FileUtils;
 import io.harness.plugins.harness_bva.utils.JsonUtils;
 import jenkins.model.Jenkins;
+import org.apache.commons.lang3.StringUtils;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 import org.kohsuke.stapler.verb.POST;
 
-import javax.annotation.Nullable;
 import javax.servlet.ServletException;
 import java.io.File;
 import java.io.IOException;
@@ -89,9 +91,6 @@ public class HarnessMgmtLink extends ManagementLink {
     public void doSaveSettings(final StaplerRequest res, final StaplerResponse rsp,
                                @QueryParameter("pluginPath") final String pluginPath,
                                @QueryParameter("jenkinsInstanceName") final String jenkinsInstanceName,
-                               @QueryParameter("buildJobConfigs") final String buildJobConfigs,
-                               @QueryParameter("deploymentJobConfigs") final String deploymentJobConfigs,
-                               @QueryParameter("rollbackJobConfigs") final String rollbackJobConfigs,
                                @Sites Map<String,List<JobConfig>> parsed
     ) throws IOException {
         /*
@@ -116,17 +115,14 @@ public class HarnessMgmtLink extends ManagementLink {
          */
 
 
-        LOGGER.log(Level.FINE, "Starting doSaveSettings, pluginPath = {0}, jenkinsInstanceName = {1}, buildJobConfigs = {2}, deploymentJobConfigs = {3}, rollbackJobConfigs = {4}",
-                new Object[] { pluginPath, jenkinsInstanceName, buildJobConfigs, deploymentJobConfigs, rollbackJobConfigs });
+        LOGGER.log(Level.FINE, "Starting doSaveSettings, pluginPath = {0}, jenkinsInstanceName = {1}",
+                new Object[] { pluginPath, jenkinsInstanceName });
 
         Hudson.getInstance().checkPermission(Hudson.ADMINISTER);
 
         final HarnessBVAPluginImpl plugin = HarnessBVAPluginImpl.getInstance();
         plugin.setPluginPath(pluginPath);
         plugin.setJenkinsInstanceName(jenkinsInstanceName);
-        plugin.setBuildJobConfigs(buildJobConfigs);
-        plugin.setDeploymentJobConfigs(deploymentJobConfigs);
-        plugin.setRollbackJobConfigs(rollbackJobConfigs);
         plugin.setBuildConfigs(parsed.get("build"));
         plugin.setDeploymentConfigs(parsed.get("deployment"));
         plugin.setRollbackConfigs(parsed.get("rollback"));
@@ -164,7 +160,44 @@ public class HarnessMgmtLink extends ManagementLink {
             rsp.serveFile(res, reportsPath.toURL());
             return;
         } catch (ServletException e) {
-            LOGGER.log(Level.WARNING,"ServletException trying to download the report!!", e );
+            LOGGER.log(Level.SEVERE,"ServletException trying to download the report!!", e );
+        }
+    }
+
+    private File getHudsonHome() {
+        Jenkins jenkins = Jenkins.getInstanceOrNull();
+        return (jenkins == null) ? null : jenkins.getRootDir();
+    }
+
+    public void doDownloadSecurityReport(final StaplerRequest res, final StaplerResponse rsp) throws IOException {
+        LOGGER.info("Starting download report.");
+
+
+        final HarnessBVAPluginImpl plugin = HarnessBVAPluginImpl.getInstance();
+        if(StringUtils.isBlank(plugin.getPluginPath())) {
+            LOGGER.log(Level.SEVERE, "LevelOps Plugin Directory is invalid, cannot download report! path: ");
+            return;
+        }
+        try {
+            HudsonMonitoring hudsonMonitoring = new HudsonMonitoring(plugin.getExpandedPluginDir(), getHudsonHome(), JenkinsConfigService.getInstance(), JenkinsPluginService.getInstance());
+            hudsonMonitoring.monitor();
+        } catch (Exception e){
+            LOGGER.log(Level.SEVERE, "Exception", e);
+        }
+
+        File reportsDir = new File(plugin.getExpandedPluginDir(), "reports");
+        File reportsPath = new File(reportsDir, LEVELOPS_JENKINS_HTML_REPORT_FILE_NAME);
+        LOGGER.info("reportsPath = " + reportsPath.toString());
+        boolean reportExists = reportsPath.exists();
+        LOGGER.info("reportExists = " + reportExists);
+        if(!reportExists){
+            return;
+        }
+        try {
+            rsp.serveFile(res, reportsPath.toURL());
+            return;
+        } catch (ServletException e) {
+            LOGGER.log(Level.SEVERE,"ServletException trying to download the report!!", e );
         }
     }
 

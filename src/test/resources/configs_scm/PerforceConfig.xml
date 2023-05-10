@@ -1,0 +1,59 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+    <actions/>
+    <description></description>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty plugin="gitlab-plugin@1.5.13">
+            <gitLabConnection></gitLabConnection>
+        </com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty>
+    </properties>
+    <scm class="org.jenkinsci.plugins.p4.PerforceScm" plugin="p4@1.11.2">
+        <credential>perforce-1</credential>
+        <workspace class="org.jenkinsci.plugins.p4.workspace.StreamWorkspaceImpl">
+            <charset>utf8</charset>
+            <pinHost>false</pinHost>
+            <cleanup>false</cleanup>
+            <streamName>//sandbox/main</streamName>
+            <format>jenkins-${NODE_NAME}-${JOB_NAME}-${EXECUTOR_NUMBER}</format>
+        </workspace>
+        <populate class="org.jenkinsci.plugins.p4.populate.AutoCleanImpl">
+            <have>true</have>
+            <force>false</force>
+            <modtime>false</modtime>
+            <quiet>true</quiet>
+            <pin></pin>
+            <parallel>
+                <enable>false</enable>
+                <threads>4</threads>
+                <minfiles>1</minfiles>
+                <minbytes>1024</minbytes>
+            </parallel>
+            <replace>true</replace>
+            <delete>true</delete>
+            <tidy>false</tidy>
+        </populate>
+        <browser class="org.jenkinsci.plugins.p4.browsers.SwarmBrowser">
+            <url>http://35.212.84.48/</url>
+        </browser>
+    </scm>
+    <canRoam>true</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <triggers>
+        <hudson.triggers.SCMTrigger>
+            <spec>H/10 * * * *</spec>
+            <ignorePostCommitHooks>false</ignorePostCommitHooks>
+        </hudson.triggers.SCMTrigger>
+    </triggers>
+    <concurrentBuild>false</concurrentBuild>
+    <builders>
+        <hudson.tasks.Shell>
+            <command>ls</command>
+            <configuredLocalRules/>
+        </hudson.tasks.Shell>
+    </builders>
+    <publishers/>
+    <buildWrappers/>
+</project>

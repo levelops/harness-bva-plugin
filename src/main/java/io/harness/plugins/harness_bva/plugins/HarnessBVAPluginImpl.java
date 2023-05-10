@@ -31,9 +31,6 @@ public class HarnessBVAPluginImpl extends Plugin {
     //region Data Members
     private String jenkinsInstanceName = "Jenkins Instance";
     private String pluginPath = "${JENKINS_HOME}/harness-bva";
-    private String buildJobConfigs = "";
-    private String deploymentJobConfigs = "";
-    private String rollbackJobConfigs = "";
     private List<JobConfig> buildConfigs = new ArrayList<>();
     private List<JobConfig> deploymentConfigs = new ArrayList<>();
     private List<JobConfig> rollbackConfigs = new ArrayList<>();
@@ -97,30 +94,6 @@ public class HarnessBVAPluginImpl extends Plugin {
         this.pluginPath = pluginPath;
     }
 
-    public String getBuildJobConfigs() {
-        return buildJobConfigs;
-    }
-
-    public void setBuildJobConfigs(String buildJobConfigs) {
-        this.buildJobConfigs = buildJobConfigs;
-    }
-
-    public String getDeploymentJobConfigs() {
-        return deploymentJobConfigs;
-    }
-
-    public void setDeploymentJobConfigs(String deploymentJobConfigs) {
-        this.deploymentJobConfigs = deploymentJobConfigs;
-    }
-
-    public String getRollbackJobConfigs() {
-        return rollbackJobConfigs;
-    }
-
-    public void setRollbackJobConfigs(String rollbackJobConfigs) {
-        this.rollbackJobConfigs = rollbackJobConfigs;
-    }
-
     public List<JobConfig> getBuildConfigs() {
         return buildConfigs;
     }
@@ -152,9 +125,6 @@ public class HarnessBVAPluginImpl extends Plugin {
         return "HarnessBVAPluginImpl{" +
                 "jenkinsInstanceName='" + jenkinsInstanceName + '\'' +
                 ", pluginPath='" + pluginPath + '\'' +
-                ", buildJobConfigs='" + buildJobConfigs + '\'' +
-                ", deploymentJobConfigs='" + deploymentJobConfigs + '\'' +
-                ", rollbackJobConfigs='" + rollbackJobConfigs + '\'' +
                 ", buildConfigs='" + buildConfigs + '\'' +
                 ", deploymentConfigs='" + deploymentConfigs + '\'' +
                 ", rollbackConfigs='" + rollbackConfigs + '\'' +

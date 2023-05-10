@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<changelog>
+    <entry>
+        <changenumber><changeInfo>21</changeInfo>
+            <clientId>cgn</clientId>
+            <msg>New commit
+            </msg>
+            <changeUser>super</changeUser>
+            <changeTime>2021-02-24 20:06:28</changeTime>
+            <shelved>false</shelved>
+            <files>
+                <file endRevision="#2" action="EDIT" depot="%2F%2Fsandbox%2Fmain%2Freadme.md" />
+            </files>
+            <jobs>
+            </jobs>
+        </changenumber>
+    </entry>
+</changelog>

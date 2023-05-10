@@ -23,24 +23,6 @@
                     </f:entry>
                 </f:section>
 
-                <f:section title="Job Configs">
-                    <f:entry title="Build Jobs" field="buildJobConfigs"
-                             help="/plugin/${it.urlName}/help/help-buildJobConfigs.html">
-                        <f:textbox value="${it.configuration.buildJobConfigs}" name="buildJobConfigs"
-                                   checkUrl="'${rootURL}/plugin/${it.urlName}/checkBuildJobConfigs?value='+escape(this.value)"/>
-                    </f:entry>
-                    <f:entry title="Deployment Jobs" field="deploymentJobConfigs"
-                             help="/plugin/${it.urlName}/help/help-deploymentJobConfigs.html">
-                        <f:textbox value="${it.configuration.deploymentJobConfigs}" name="deploymentJobConfigs"
-                                   checkUrl="'${rootURL}/plugin/${it.urlName}/checkDeploymentJobConfigs?value='+escape(this.value)"/>
-                    </f:entry>
-                    <f:entry title="Rollback Jobs" field="rollbackJobConfigs"
-                             help="/plugin/${it.urlName}/help/help-rollbackJobConfigs.html">
-                        <f:textbox value="${it.configuration.rollbackJobConfigs}" name="rollbackJobConfigs"
-                                   checkUrl="'${rootURL}/plugin/${it.urlName}/checkRollbackJobConfigs?value='+escape(this.value)"/>
-                    </f:entry>
-                </f:section>
-
                 <f:section title="Build Configuration">
                     <f:hetero-list hasHeader="true" name="bc" items="${it.buildConfigsList}"
                                    descriptors="${it.updateSiteDescriptorList}"/>

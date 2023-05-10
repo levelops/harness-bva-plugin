@@ -33,10 +33,10 @@
                     </button>
                 </a>
 
-                <a download="Harness_BVA_Security_Report.json" href="restoreOptions" style="text-decoration: none;">
+                <a download="Harness_BVA_Security_Report.html" href="downloadSecurityReport" style="text-decoration: none;">
                     <button class="jenkins-button" tooltip="${%restore_options_tooltip}">
                         <l:icon src="symbol-stats-chart-outline plugin-ionicons-api" class="icon-xlg"/>
-                        ${%restore}
+                        ${%download_sec_report}
                     </button>
                 </a>
 
