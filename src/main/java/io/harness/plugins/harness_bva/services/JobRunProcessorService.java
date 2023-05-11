@@ -1,11 +1,14 @@
 package io.harness.plugins.harness_bva.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hudson.model.Run;
 import io.harness.plugins.harness_bva.models.JobRunDetail;
 import io.harness.plugins.harness_bva.models.JobRunDetailLite;
 import io.harness.plugins.harness_bva.models.JobType;
 import io.harness.plugins.harness_bva.models.Report;
 import io.harness.plugins.harness_bva.plugins.HarnessBVAPluginImpl;
+import io.harness.plugins.harness_bva.utils.JsonUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,15 +36,23 @@ public class JobRunProcessorService {
         LOGGER.log(Level.FINE, "Starting processing complete event jobFullName={0}, build number = {1}", new Object[]{jobRunDetail.getJobFullName(), jobRunDetail.getBuildNumber()});
         LOGGER.finest("jobRunDetail = " + jobRunDetail);
 
+        ObjectMapper MAPPER = JsonUtils.get();
+        try {
+            String triggerChain = MAPPER.writeValueAsString(jobRunDetail.getTriggerChain());
+            LOGGER.log(Level.INFO, "triggerChain jobFullName={0}, build number = {1}, triggerChain = {2}", new Object[]{jobRunDetail.getJobFullName(), jobRunDetail.getBuildNumber(), triggerChain});
+        } catch (JsonProcessingException e) {
+            LOGGER.log(Level.SEVERE, "Error converting triggerChain to string!", e);
+        }
+
         //Step 2: Persist Heartbeat
         HeartbeatService heartbeatService = new HeartbeatService(plugin.getExpandedPluginDir());
         heartbeatService.writeHeartBeat(now.getEpochSecond());
 
         //Step 3: Persist Job Run Details
-        LOGGER.info("JobRunPersistanceService Starting");
+        LOGGER.fine("JobRunPersistanceService Starting");
         JobRunPersistanceService jobRunPersistanceService = new JobRunPersistanceService();
         jobRunPersistanceService.persistJobRun(jobRunDetail,plugin, now);
-        LOGGER.info("JobRunPersistanceService Completed");
+        LOGGER.fine("JobRunPersistanceService Completed");
     }
 
 

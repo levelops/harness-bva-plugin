@@ -15,14 +15,6 @@
                                checkUrl="'${rootURL}/plugin/${it.urlName}/checkPluginPath?value='+escape(this.value)" checkMethod="post"/>
                 </f:entry>
 
-                <f:section title="Propelo API">
-                    <f:entry title="Jenkins Instance Name" field="jenkinsInstanceName"
-                             help="/plugin/${it.urlName}/help/help-jenkinsInstanceName.html">
-                        <f:textbox value="${it.configuration.jenkinsInstanceName}" name="jenkinsInstanceName"
-                                   checkUrl="'${rootURL}/plugin/${it.urlName}/checkJenkinsInstanceName?value='+escape(this.value)"/>
-                    </f:entry>
-                </f:section>
-
                 <f:section title="Build Configuration">
                     <f:hetero-list hasHeader="true" name="bc" items="${it.buildConfigsList}"
                                    descriptors="${it.updateSiteDescriptorList}"/>

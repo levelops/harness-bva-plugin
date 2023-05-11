@@ -93,28 +93,6 @@ public class HarnessMgmtLink extends ManagementLink {
                                @QueryParameter("jenkinsInstanceName") final String jenkinsInstanceName,
                                @Sites Map<String,List<JobConfig>> parsed
     ) throws IOException {
-        /*
-        Map<String, String[]> abc = res.getParameterMap();
-        String data = JsonUtils.get().writeValueAsString(abc);
-        LOGGER.log(Level.SEVERE, "Imp doSaveSettings, data = {0}",
-                new Object[] { data });
-        String json = abc.getOrDefault("json", new String[0])[0];
-        String data2 = JsonUtils.get().writeValueAsString(json);
-        LOGGER.log(Level.SEVERE, "Imp doSaveSettings, data2 = {0}",
-                new Object[] { data2 });
-        HarnessBVAPluginImpl copy = JsonUtils.get().readValue(json, HarnessBVAPluginImpl.class);
-        LOGGER.log(Level.SEVERE, "Imp doSaveSettings, copy = {0}",
-                new Object[] { copy });
-
-        LOGGER.log(Level.SEVERE, "Imp doSaveSettings, build = {0}",
-                new Object[] { parsed.get("build") });
-        LOGGER.log(Level.SEVERE, "Imp doSaveSettings, deployment = {0}",
-                new Object[] { parsed.get("deployment") });
-        LOGGER.log(Level.SEVERE, "Imp doSaveSettings, rollback = {0}",
-                new Object[] { parsed.get("rollback") });
-         */
-
-
         LOGGER.log(Level.FINE, "Starting doSaveSettings, pluginPath = {0}, jenkinsInstanceName = {1}",
                 new Object[] { pluginPath, jenkinsInstanceName });
 
@@ -122,7 +100,6 @@ public class HarnessMgmtLink extends ManagementLink {
 
         final HarnessBVAPluginImpl plugin = HarnessBVAPluginImpl.getInstance();
         plugin.setPluginPath(pluginPath);
-        plugin.setJenkinsInstanceName(jenkinsInstanceName);
         plugin.setBuildConfigs(parsed.get("build"));
         plugin.setDeploymentConfigs(parsed.get("deployment"));
         plugin.setRollbackConfigs(parsed.get("rollback"));
@@ -130,8 +107,6 @@ public class HarnessMgmtLink extends ManagementLink {
         LOGGER.log(Level.CONFIG, "Saving plugin settings done. plugin = {0}", plugin);
 
         final HarnessBVAPluginImpl pluginRead = HarnessBVAPluginImpl.getInstance();
-//        LOGGER.log(Level.SEVERE, "Imp doSaveSettings, read servers = {0}",
-//                new Object[] { pluginRead.getServers() });
         rsp.sendRedirect(res.getContextPath() + "/" + PLUGIN_NAME);
     }
 

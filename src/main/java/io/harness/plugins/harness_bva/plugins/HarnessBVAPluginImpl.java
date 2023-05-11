@@ -29,7 +29,6 @@ public class HarnessBVAPluginImpl extends Plugin {
     public static final String PLUGIN_SHORT_NAME = "propelo-job-reporter";
 
     //region Data Members
-    private String jenkinsInstanceName = "Jenkins Instance";
     private String pluginPath = "${JENKINS_HOME}/harness-bva";
     private List<JobConfig> buildConfigs = new ArrayList<>();
     private List<JobConfig> deploymentConfigs = new ArrayList<>();
@@ -71,14 +70,6 @@ public class HarnessBVAPluginImpl extends Plugin {
     //endregion
 
     //region Getter & Setter
-    public String getJenkinsInstanceName() {
-        return jenkinsInstanceName;
-    }
-
-    public void setJenkinsInstanceName(String jenkinsInstanceName) {
-        this.jenkinsInstanceName = jenkinsInstanceName;
-    }
-
     /**
      * Get the Propelo plugin path as entered by the user. May contain environment variables.
      *
@@ -123,8 +114,7 @@ public class HarnessBVAPluginImpl extends Plugin {
     @Override
     public String toString() {
         return "HarnessBVAPluginImpl{" +
-                "jenkinsInstanceName='" + jenkinsInstanceName + '\'' +
-                ", pluginPath='" + pluginPath + '\'' +
+                "pluginPath='" + pluginPath + '\'' +
                 ", buildConfigs='" + buildConfigs + '\'' +
                 ", deploymentConfigs='" + deploymentConfigs + '\'' +
                 ", rollbackConfigs='" + rollbackConfigs + '\'' +
@@ -224,28 +214,6 @@ public class HarnessBVAPluginImpl extends Plugin {
         } else {
             return FormValidation.ok();
         }
-    }
-
-    private FormValidation checkJobConfigs(String jobConfigs) {
-        ImmutablePair<List<io.harness.plugins.harness_bva.models.JobConfig>, String> result = io.harness.plugins.harness_bva.models.JobConfig.validate(jobConfigs);
-        String error = result.getRight();
-        if (StringUtils.isBlank(error)) {
-            return FormValidation.ok();
-        } else {
-            return FormValidation.error(error);
-        }
-    }
-    public FormValidation doCheckBuildJobConfigs(final StaplerRequest res, final StaplerResponse rsp,
-                                                     @QueryParameter("value") final String buildJobConfigs) {
-        return checkJobConfigs(buildJobConfigs);
-    }
-    public FormValidation doCheckDeploymentJobConfigs(final StaplerRequest res, final StaplerResponse rsp,
-                                                 @QueryParameter("value") final String deploymentJobConfigs) {
-        return checkJobConfigs(deploymentJobConfigs);
-    }
-    public FormValidation doCheckRollbackJobConfigs(final StaplerRequest res, final StaplerResponse rsp,
-                                                 @QueryParameter("value") final String rollbackJobConfigs) {
-        return checkJobConfigs(rollbackJobConfigs);
     }
     //endregion
 }

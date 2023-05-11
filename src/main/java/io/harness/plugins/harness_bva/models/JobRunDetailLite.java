@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class JobRunDetailLite {
     //region Data Members
@@ -99,6 +101,35 @@ public class JobRunDetailLite {
     //endregion
 
     //region Converter
+    private  static void processJobTrigger(JobTrigger jt, AtomicInteger manualTriggersCount) {
+        if (jt == null) {
+            return;
+        }
+        if ("UserIdCause".equals(jt.getType())) {
+            manualTriggersCount.incrementAndGet();
+        }
+        if (CollectionUtils.isEmpty(jt.getTriggers())) {
+            return;
+        }
+        for (JobTrigger c : jt.getTriggers()) {
+            processJobTrigger(c, manualTriggersCount);
+        }
+    }
+    private static String determineTriggerType(Set<JobTrigger> triggerChain) {
+        if(CollectionUtils.isEmpty(triggerChain)) {
+            return "MANUAL";
+        }
+        AtomicInteger manualTriggersCount = new AtomicInteger();
+        for (JobTrigger current : triggerChain) {
+            processJobTrigger(current, manualTriggersCount);
+        }
+        if (manualTriggersCount.get() > 0) {
+            return "MANUAL";
+        } else {
+            return "AUTOMATED";
+        }
+    }
+
     public static JobRunDetailLite fromJobRunDetail (JobRunDetail j) {
         Map<String, String> params = new HashMap<>();
         if (CollectionUtils.isNotEmpty(j.getJobRunParams())) {
@@ -109,8 +140,15 @@ public class JobRunDetailLite {
                 params.put(p.getName(), p.getValue());
             }
         }
+        /*
+        triggerChain jobFullName=Build-Aggregations-Service, build number = 1,591, triggerChain = [{"id":"viraj","type":"UserIdCause"}]
+        triggerChain jobFullName=Deploy-Aggregations-Service, build number = 1,098, triggerChain = [{"id":"Build-Aggregations-Service","job_run_number":"1591","type":"UpstreamCause","direct_parents":[{"id":"viraj","type":"UserIdCause"}]}]
+        triggerChain jobFullName=GitOps, build number = 7,956, triggerChain = [{"id":"SCMTrigger","type":"GitHubPushCause"}]
+        triggerChain jobFullName=Reports_Post_Deployment_Test_Run_Foo_Customer_Dev, build number = 5,077, triggerChain = [{"id":"GitOps","job_run_number":"7956","type":"UpstreamCause","direct_parents":[{"id":"SCMTrigger","type":"GitHubPushCause"}]}]
+         */
+        String triggerType = determineTriggerType(j.getTriggerChain());
         return new JobRunDetailLite(j.getJobName(),j.getJobFullName(), j.getJobNormalizedFullName(),
-                params, j.getBuildNumber(), j.getUserId(), j.getStartTime(), j.getResult(), j.getDuration(), "MANUAL"
+                params, j.getBuildNumber(), j.getUserId(), j.getStartTime(), j.getResult(), j.getDuration(), triggerType
         );
     }
     //endregion

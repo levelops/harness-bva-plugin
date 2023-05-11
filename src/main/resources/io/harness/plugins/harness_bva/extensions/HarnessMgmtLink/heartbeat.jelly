@@ -10,7 +10,7 @@
 
             <f:form method="post" action="saveHeartbeat">
                 <f:entry title="Lastest Job Run Monitored Time" field="levelOpsStatus"
-                         help="/plugin/${it.urlName}/help/help-jenkinsStatus.html">
+                         help="/plugin/${it.urlName}/help/help-latestJobMonitoredTime.html">
                     <f:readOnlyTextbox value="${it.heartbeatStatus}" name="heartbeatStatus"/>
                 </f:entry>
 

@@ -59,7 +59,7 @@ public class JobRunStorageService {
                 return name.startsWith(jobType.getFilePrefix());
             }
         });
-        if (allFilesWithPrefix == null) {
+        if ((allFilesWithPrefix == null) || (allFilesWithPrefix.length == 0)) {
             Collections.emptyList();
         }
         return Arrays.asList(allFilesWithPrefix);
