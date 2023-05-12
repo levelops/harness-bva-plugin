@@ -22,7 +22,7 @@
         <st:include it="${app}" page="sidepanel.jelly"/>
         <l:main-panel>
             <h1>
-                <img src="${rootURL}/plugin/${it.urlName}/images/propelo_logo.png" alt=""/> ${it.displayName}
+                <img src="${rootURL}/plugin/${it.urlName}/images/harness.svg" width="72" height="72" alt=""/> ${it.displayName}
             </h1>
 
             <div class="jenkins-buttons-row jenkins-!-padding-3">

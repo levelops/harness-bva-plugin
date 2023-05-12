@@ -10656,7 +10656,7 @@ This file was modified entirely by Creative Tim for React-Select v2.0.0
                                             <div class="rt-tr-group" role="rowgroup">
                                                 <div class="rt-tr -odd" role="row">
                                                     <div class="rt-td" role="gridcell" style="text-align: left; flex: 20 0 auto; width: 20px; max-width: 20px;">3</div>
-                                                    <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">CSRF Prevention is enabed : $r.csrfPreventionEnabled</div>
+                                                    <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">CSRF Prevention is enabled : $r.csrfPreventionEnabled</div>
                                                     <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">CSRF prevention should be enabled</div>
                                                     <div class="rt-td" role="gridcell" style="text-align: left; flex: 100 0 auto; width: 100px; max-width: 100px;"><h6 class="$r.csrfPreventionColor">$r.csrfPreventionPassFail</h6></div>
                                                 </div>
@@ -10664,7 +10664,7 @@ This file was modified entirely by Creative Tim for React-Select v2.0.0
                                             <div class="rt-tr-group" role="rowgroup">
                                                 <div class="rt-tr -even" role="row">
                                                     <div class="rt-td" role="gridcell" style="text-align: left; flex: 20 0 auto; width: 20px; max-width: 20px;">4</div>
-                                                    <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">JNLP 1 is enabed : $r.jnlp1ProtocolEnabled</div>
+                                                    <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">JNLP 1 is enabled : $r.jnlp1ProtocolEnabled</div>
                                                     <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">JNLP 1 Protocol should be disabled</div>
                                                     <div class="rt-td" role="gridcell" style="text-align: left; flex: 100 0 auto; width: 100px; max-width: 100px;"><h6 class="$r.jnlp1ProtocolColor">$r.jnlp1ProtocolPassFail</h6></div>
                                                 </div>
@@ -10672,7 +10672,7 @@ This file was modified entirely by Creative Tim for React-Select v2.0.0
                                             <div class="rt-tr-group" role="rowgroup">
                                                 <div class="rt-tr -odd" role="row">
                                                     <div class="rt-td" role="gridcell" style="text-align: left; flex: 20 0 auto; width: 20px; max-width: 20px;">5</div>
-                                                    <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">JNLP 2 is enabed : $r.jnlp2ProtocolEnabled</div>
+                                                    <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">JNLP 2 is enabled : $r.jnlp2ProtocolEnabled</div>
                                                     <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">JNLP 2 Protocol should be disabled</div>
                                                     <div class="rt-td" role="gridcell" style="text-align: left; flex: 100 0 auto; width: 100px; max-width: 100px;"><h6 class="$r.jnlp2ProtocolColor">$r.jnlp2ProtocolPassFail</h6></div>
                                                 </div>
@@ -10680,7 +10680,7 @@ This file was modified entirely by Creative Tim for React-Select v2.0.0
                                             <div class="rt-tr-group" role="rowgroup">
                                                 <div class="rt-tr -even" role="row">
                                                     <div class="rt-td" role="gridcell" style="text-align: left; flex: 20 0 auto; width: 20px; max-width: 20px;">6</div>
-                                                    <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">JNLP 3 is enabed : $r.jnlp3ProtocolEnabled</div>
+                                                    <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">JNLP 3 is enabled : $r.jnlp3ProtocolEnabled</div>
                                                     <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">JNLP 3 Protocol should be disabled</div>
                                                     <div class="rt-td" role="gridcell" style="text-align: left; flex: 100 0 auto; width: 100px; max-width: 100px;"><h6 class="$r.jnlp3ProtocolColor">$r.jnlp3ProtocolPassFail</h6></div>
                                                 </div>
@@ -10688,7 +10688,7 @@ This file was modified entirely by Creative Tim for React-Select v2.0.0
                                             <div class="rt-tr-group" role="rowgroup">
                                                 <div class="rt-tr -odd" role="row">
                                                     <div class="rt-td" role="gridcell" style="text-align: left; flex: 20 0 auto; width: 20px; max-width: 20px;">7</div>
-                                                    <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">JNLP 4 is enabed : $r.jnlp4ProtocolEnabled</div>
+                                                    <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">JNLP 4 is enabled : $r.jnlp4ProtocolEnabled</div>
                                                     <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">JNLP 4 Protocol should be enabled</div>
                                                     <div class="rt-td" role="gridcell" style="text-align: left; flex: 100 0 auto; width: 100px; max-width: 100px;"><h6 class="$r.jnlp4ProtocolColor">$r.jnlp4ProtocolPassFail</h6></div>
                                                 </div>
@@ -10704,7 +10704,7 @@ This file was modified entirely by Creative Tim for React-Select v2.0.0
                                             <div class="rt-tr-group" role="rowgroup">
                                                 <div class="rt-tr -odd" role="row">
                                                     <div class="rt-td" role="gridcell" style="text-align: left; flex: 20 0 auto; width: 20px; max-width: 20px;">9</div>
-                                                    <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">Plugin ZAP is enabed : $r.pluginZapInstalled</div>
+                                                    <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">Plugin ZAP is enabled : $r.pluginZapInstalled</div>
                                                     <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">Plugin ZAP should be enabled</div>
                                                     <div class="rt-td" role="gridcell" style="text-align: left; flex: 100 0 auto; width: 100px; max-width: 100px;"><h6 class="$r.pluginZapColor">$r.pluginZapPassFail</h6></div>
                                                 </div>
@@ -10712,7 +10712,7 @@ This file was modified entirely by Creative Tim for React-Select v2.0.0
                                             <div class="rt-tr-group" role="rowgroup">
                                                 <div class="rt-tr -even" role="row">
                                                     <div class="rt-td" role="gridcell" style="text-align: left; flex: 20 0 auto; width: 20px; max-width: 20px;">10</div>
-                                                    <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">Plugin Brakeman is enabed : $r.pluginBrakemanInstalled</div>
+                                                    <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">Plugin Brakeman is enabled : $r.pluginBrakemanInstalled</div>
                                                     <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">Plugin Brakeman should be enabled</div>
                                                     <div class="rt-td" role="gridcell" style="text-align: left; flex: 100 0 auto; width: 100px; max-width: 100px;"><h6 class="$r.pluginBrakemanColor">$r.pluginBrakemanPassFail</h6></div>
                                                 </div>
@@ -10720,7 +10720,7 @@ This file was modified entirely by Creative Tim for React-Select v2.0.0
                                             <div class="rt-tr-group" role="rowgroup">
                                                 <div class="rt-tr -odd" role="row">
                                                     <div class="rt-td" role="gridcell" style="text-align: left; flex: 20 0 auto; width: 20px; max-width: 20px;">11</div>
-                                                    <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">Plugin Audit Trail is enabed : $r.pluginAuditTrailInstalled</div>
+                                                    <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">Plugin Audit Trail is enabled : $r.pluginAuditTrailInstalled</div>
                                                     <div class="rt-td" role="gridcell" style="text-align: left; white-space: unset; flex: 400 0 auto; width: 400px; max-width: 400px;">Plugin Audit Trail should be enabled</div>
                                                     <div class="rt-td" role="gridcell" style="text-align: left; flex: 100 0 auto; width: 100px; max-width: 100px;"><h6 class="$r.pluginAuditTrailColor">$r.pluginAuditTrailPassFail</h6></div>
                                                 </div>

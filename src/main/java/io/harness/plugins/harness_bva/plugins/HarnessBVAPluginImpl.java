@@ -26,7 +26,7 @@ import static io.harness.plugins.harness_bva.common.Common.DATA_DIR_NAME;
 
 public class HarnessBVAPluginImpl extends Plugin {
     private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-    public static final String PLUGIN_SHORT_NAME = "propelo-job-reporter";
+    public static final String PLUGIN_SHORT_NAME = "harness-bva";
 
     //region Data Members
     private String pluginPath = "${JENKINS_HOME}/harness-bva";
