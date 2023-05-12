@@ -9,21 +9,21 @@
             </h1>
 
             <f:form method="post" action="saveSettings">
-                <f:entry title="Propelo Plugins Directory" field="pluginPath"
+                <f:entry title="Plugins Directory" field="pluginPath"
                          help="/plugin/${it.urlName}/help/help-pluginPath.html">
                     <f:textbox value="${it.configuration.pluginPath}" name="pluginPath"
                                checkUrl="'${rootURL}/plugin/${it.urlName}/checkPluginPath?value='+escape(this.value)" checkMethod="post"/>
                 </f:entry>
 
-                <f:section title="Build Configuration">
+                <f:section title="Build Jobs">
                     <f:hetero-list hasHeader="true" name="bc" items="${it.buildConfigsList}"
                                    descriptors="${it.updateSiteDescriptorList}"/>
                 </f:section>
-                <f:section title="Deployment Configuration">
+                <f:section title="Deployment Jobs">
                     <f:hetero-list hasHeader="true" name="dc" items="${it.deploymentConfigsList}"
                                    descriptors="${it.updateSiteDescriptorList}"/>
                 </f:section>
-                <f:section title="Rollback Configuration">
+                <f:section title="Rollback Jobs">
                     <f:hetero-list hasHeader="true" name="rc" items="${it.rollbackConfigsList}"
                                    descriptors="${it.updateSiteDescriptorList}"/>
                 </f:section>
