@@ -66,22 +66,22 @@ public class HarnessMgmtLink extends ManagementLink {
         return PLUGIN_DESCRIPTION;
     }
     public List<JobConfig> getBuildConfigsList() {
-        List<JobConfig> abc = HarnessBVAPluginImpl.getInstance().getBuildConfigs();
-        LOGGER.log(Level.SEVERE, "Imp getBuildConfigsList = {0}",
-                new Object[] { abc });
-        return abc;
+        List<JobConfig> jobConfigs = HarnessBVAPluginImpl.getInstance().getBuildConfigs();
+        LOGGER.log(Level.FINEST, "Imp getBuildConfigsList = {0}",
+                new Object[] { jobConfigs });
+        return jobConfigs;
     }
     public List<JobConfig> getDeploymentConfigsList() {
-        List<JobConfig> abc = HarnessBVAPluginImpl.getInstance().getDeploymentConfigs();
-        LOGGER.log(Level.SEVERE, "Imp getDeploymentConfigsList = {0}",
-                new Object[] { abc });
-        return abc;
+        List<JobConfig> jobConfigs = HarnessBVAPluginImpl.getInstance().getDeploymentConfigs();
+        LOGGER.log(Level.FINEST, "Imp getDeploymentConfigsList = {0}",
+                new Object[] { jobConfigs });
+        return jobConfigs;
     }
     public List<JobConfig> getRollbackConfigsList() {
-        List<JobConfig> abc = HarnessBVAPluginImpl.getInstance().getRollbackConfigs();
-        LOGGER.log(Level.SEVERE, "Imp getRollbackConfigsList = {0}",
-                new Object[] { abc });
-        return abc;
+        List<JobConfig> jobConfigs = HarnessBVAPluginImpl.getInstance().getRollbackConfigs();
+        LOGGER.log(Level.FINEST, "Imp getRollbackConfigsList = {0}",
+                new Object[] { jobConfigs });
+        return jobConfigs;
     }
 
     public List<DescribedJobConfigDescriptor> getUpdateSiteDescriptorList() {
@@ -145,7 +145,7 @@ public class HarnessMgmtLink extends ManagementLink {
     }
 
     public void doDownloadSecurityReport(final StaplerRequest res, final StaplerResponse rsp) throws IOException {
-        LOGGER.info("Starting download report.");
+        LOGGER.finest("Starting download report.");
 
 
         final HarnessBVAPluginImpl plugin = HarnessBVAPluginImpl.getInstance();
@@ -162,9 +162,9 @@ public class HarnessMgmtLink extends ManagementLink {
 
         File reportsDir = new File(plugin.getExpandedPluginDir(), "reports");
         File reportsPath = new File(reportsDir, LEVELOPS_JENKINS_HTML_REPORT_FILE_NAME);
-        LOGGER.info("reportsPath = " + reportsPath.toString());
+        LOGGER.finest("reportsPath = " + reportsPath.toString());
         boolean reportExists = reportsPath.exists();
-        LOGGER.info("reportExists = " + reportExists);
+        LOGGER.finest("reportExists = " + reportExists);
         if(!reportExists){
             return;
         }

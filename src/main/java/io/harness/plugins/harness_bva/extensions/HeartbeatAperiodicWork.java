@@ -22,10 +22,9 @@ import java.util.logging.Logger;
 public class HeartbeatAperiodicWork extends AperiodicWork {
     private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
-
     @Override
     public long getRecurrencePeriod() {
-        return TimeUnit.MINUTES.toMillis(1);
+        return TimeUnit.HOURS.toMillis(1);
     }
 
     @Override
@@ -35,7 +34,7 @@ public class HeartbeatAperiodicWork extends AperiodicWork {
 
     @Override
     protected void doAperiodicRun() {
-        LOGGER.log(Level.INFO, "Harness BVA - Periodic Job Run");
+        LOGGER.log(Level.INFO, "Harness BVA - Periodic Job Run - Starting");
         Instant now = Instant.now();
         HarnessBVAPluginImpl plugin = HarnessBVAPluginImpl.getInstance();
 
